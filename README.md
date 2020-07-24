@@ -2,6 +2,7 @@
 
 
 ## Notes:
+- This is a fork of the [makerbase-mks/MKS-DLP-FIRMWARE](https://github.com/makerbase-mks/MKS-DLP-FIRMWARE) project.
 - There is a ~23MB library - *mksDLP.a* - for which currently there is no source.  After cursory examination with nm, it seems to mainly contain routines that the GUI relies upon for rendering, callbacks, etc.
 - Nonetheless it seems the GUI graphics can be customized with the [MKS-Tool software](https://github.com/makerbase-mks/MKS-TOOL)
 - This project currently requires expensive commercial software - IAR Workbench for ARM - to build.  We hope we can remedy this situation.  In the meantime, [grab a demo version (30 day trial)](https://www.iar.com/iar-embedded-workbench/) to compile this firmware.  Or something.  Again, it's the ARM version you need to somehow procure.  I successfully used version 8.4.  The MKS people seem to use 7.10 per a communication we had.
