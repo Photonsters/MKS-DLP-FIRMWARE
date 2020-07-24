@@ -23,7 +23,7 @@
 
 5. I found the Workspace to be a little bit unconventional.  It seems that the file listing is a visual representation of the dependency tree.  To find the includes, you have to open the twisty under each .c or .cpp file, and what I believe to be only the relevant ones to that source file are linked under there.  Double-clicking on any of these file names will open the file(s) as tab(s) in the editing window.  Which, by the way, might be buried under existing windows, depending on how you've configured your workbench.  So float or autohide sub-windows and move them around to your liking.
 
-Uncomment one of the `#define USE_STM32#######` lines  in main.h to select the hardware version of your board.
+    Uncomment one of the `#define USE_STM32#######` lines  in *main.h* to select the hardware version of your board.
 
     ![Includes](/GitHubPics/Includes.jpg)
 
