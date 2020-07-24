@@ -93,7 +93,7 @@ extern "C" u16 DeviceCode;
 
 uint32_t logo_tick1,logo_tick2;
 
-extern "C"void setTouchBound(int x0, int x1, int y0, int y1 );
+extern "C" void setTouchBound(int x0, int x1, int y0, int y1 );
 
  
 int main(void)

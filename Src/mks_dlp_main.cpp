@@ -26,11 +26,11 @@ volatile uint32_t reTransmission_all_cnt = 0;
 
 uint8_t Line_Pixel[Y_RATIO+FILLCODE*2];
 volatile uint32_t *spi1_hdmatx_CR = (uint32_t *)0x40026488;
-/*-------------TFT ÏÔÊ¾ÇøÓò--------------*/
+/*-------------TFT ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½--------------*/
 uint8_t Line_Pixel_TFT[Y_RATIO_TFT];
 extern unsigned char bmp_layer_buf[];
 
-/*-------------TFT ÏÔÊ¾ÇøÓò--------------*/
+/*-------------TFT ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½--------------*/
 extern u32 mipi_te_cnt;
 
 float strting2float(BYTE data[],BYTE len)
@@ -43,18 +43,18 @@ float strting2float(BYTE data[],BYTE len)
 	return atof(rc_data);
 }
 /*******************************************************************************
-¶ÁÈ¡ÎÄ¼þ£¬Ò»Ö±µ½³öÏÖ0D 0A±êÖ¾
+ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½Ò»Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0D 0Aï¿½ï¿½Ö¾
 *******************************************************************************/
 void find_next_bmp()
 {
 	BYTE sd_char[32];
         uint8_t rc;
-        
+
 	sd_char[1]=sd_char[0]=0;
 	while(1)
 		{
 		if(card.eof()) break;
-			
+
 		rc = card.gets(sd_char,1);
 		if(sd_char[0] == 0x0A && sd_char[1] == 0x0D)
 			break;
@@ -76,7 +76,7 @@ inline void clr_ticket()
 bool open_file()
 {
 	char name[30]={0};
-	
+
 	if(card.cardOK)
 		strcat(name,SD_Path);
 	else
@@ -84,8 +84,8 @@ bool open_file()
 
 	strcat(name,mks_dlp_file);
 
-	
-	if (f_open(&mksdlp.file, (const TCHAR *)name, FA_CREATE_ALWAYS | FA_READ | FA_WRITE) == FR_OK)		
+
+	if (f_open(&mksdlp.file, (const TCHAR *)name, FA_CREATE_ALWAYS | FA_READ | FA_WRITE) == FR_OK)
         {
 		return true;
         }
@@ -114,7 +114,7 @@ void write_tft_file()
 		f_printf(&mksdlp.file,"\n");
 		}
 	close_file();
-	
+
 }
 #endif
 
@@ -142,9 +142,9 @@ dBuf[0] = tmp[0];
 
 }
 
- 
 
-void InvertUint16(unsigned short *dBuf,unsigned short *srcBuf)  
+
+void InvertUint16(unsigned short *dBuf,unsigned short *srcBuf)
 
 {
 
@@ -167,10 +167,10 @@ dBuf[0] = tmp[0];
 }
 
 /*******************************************************************************
-x16+x12+x5+1£¨0x1021£©
-³õÊ¼Öµ 		0x0000
-Êý¾ÝÎ»Ðò 	µÍÎ»ÔÚºó£¬¸ßÎ»ÔÚÇ°
-½á¹û´¦Àí    Óë0x0000Òì»ò
+x16+x12+x5+1ï¿½ï¿½0x1021ï¿½ï¿½
+ï¿½ï¿½Ê¼Öµ 		0x0000
+ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ 	ï¿½ï¿½Î»ï¿½Úºó£¬¸ï¿½Î»ï¿½ï¿½Ç°
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½0x0000ï¿½ï¿½ï¿½ï¿½
 *******************************************************************************/
 inline uint16_t CRC16_XMODEM(unsigned char *puchMsg, unsigned int usDataLen)
 {
@@ -178,7 +178,7 @@ inline uint16_t CRC16_XMODEM(unsigned char *puchMsg, unsigned int usDataLen)
   unsigned short wCPoly = 0x1021;
   unsigned char wChar = 0;
   unsigned short wCTemp = 0;
-  while (usDataLen--) 	
+  while (usDataLen--)
   {
         wChar = *(puchMsg++);
         wCRCin ^= (wChar << 8);
@@ -198,10 +198,10 @@ inline uint16_t CRC16_XMODEM(unsigned char *puchMsg, unsigned int usDataLen)
 
 
 
-MKS_DLP::MKS_DLP() 
+MKS_DLP::MKS_DLP()
 {
 	displayInTFT_ON = 0;
-	
+
 	status.currentLayer = 0;
 	status.curBottomlayers = 0;
 	status.exposure = false;
@@ -209,20 +209,20 @@ MKS_DLP::MKS_DLP()
 	status.transferComplete = false;
 	tick_ms = 0;
 	//cnt_tick_buzzer = 0;
-	
+
 //	status.test_exposure = false;
 	status.test_exposure_time = 5000;
 	status.pause_ledStatus = false;
 	status.release_time = 0;
 
-for(int i=0;i<POWEROFF_RESUME_BUF_LEN;i++)	
+for(int i=0;i<POWEROFF_RESUME_BUF_LEN;i++)
 	{
 	poweroff_resume.sdpos[i] = 0;
 	poweroff_resume.layer[i] = 0;
 	poweroff_resume.status[i] = DLP_MOVING;
 	poweroff_resume.seconds[i] = 0;
 	}
-	
+
 
 }
 
@@ -238,32 +238,32 @@ void MKS_DLP::status_init()
 	clr_ticket();
 
 	print_job_timer.start();
-	
 
-	
+
+
 	SERIAL_PROTOCOLPGM("totalTime(s):");
 	SERIAL_PROTOCOL(get_totalPrintTime());
 	//moveFistLayer_Z();
 }
-void MKS_DLP::moveRelative_Z(float Z,float feedrate)	
+void MKS_DLP::moveRelative_Z(float Z,float feedrate)
 {
 	status.quickStop_status = false;
-	destination[Z_AXIS] += Z; 	//ÒÆ¶¯Ïà¶ÔÎ»ÖÃ
+	destination[Z_AXIS] += Z; 	//ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	do_blocking_move_to_z(destination[Z_AXIS],feedrate);
 	stepper.synchronize();
 }
 
-void MKS_DLP::moveRelativeZandGetBmp(float Z,float feedrate)	
+void MKS_DLP::moveRelativeZandGetBmp(float Z,float feedrate)
 {
 	uint8_t aa_i;
-	
+
 	status.quickStop_status = false;
-	destination[Z_AXIS] += Z; 	//ÒÆ¶¯Ïà¶ÔÎ»ÖÃ
+	destination[Z_AXIS] += Z; 	//ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	//do_blocking_move_to_z(destination[Z_AXIS],feedrate);
 	do_blocking_move_to_z_nowait(destination[Z_AXIS],feedrate);
 	if(mksdlp.print_file_type==1)
 	{
-		get_sdcard_bmps();			//¶ÁÈ¡Í¼Æ¬
+		get_sdcard_bmps();			//ï¿½ï¿½È¡Í¼Æ¬
 	}
 	else
 	{
@@ -288,11 +288,11 @@ void MKS_DLP::moveFistLayer_Z()
 	destination[Z_AXIS] = head.thickness - home_offset[2];
 	do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);
 	stepper.synchronize();
-	
+
 	SERIAL_PROTOCOLPGM("Move Z offset:");
 	SERIAL_PROTOCOL(home_offset[2]);
 	stepper.report_positions();
-	
+
 //	report_current_position();
 	destination[Z_AXIS] =current_position[Z_AXIS]= head.thickness;
 	SERIAL_PROTOCOLPGM("Reset Z:");
@@ -304,11 +304,11 @@ void MKS_DLP::moveFistLayer_Z()
 void MKS_DLP::moveMax_Z()
 {
 	destination[Z_AXIS] = Z_MAX_POS;
-	do_blocking_move_to_z(destination[Z_AXIS],2*PRINT_FEEDRATE);	//ÒÆ¶¯ZÖá£¬
+	do_blocking_move_to_z(destination[Z_AXIS],2*PRINT_FEEDRATE);	//ï¿½Æ¶ï¿½Zï¿½á£¬
 	stepper.synchronize();
 	report_current_position();
-	
-#if defined(MKS_DLP_DEBUG)	
+
+#if defined(MKS_DLP_DEBUG)
 	SERIAL_PROTOCOLLNPGM("print end.");
 #endif
 }
@@ -317,68 +317,68 @@ void MKS_DLP::getHead() {
 	BYTE sd_char[32];
 	uint8_t rc;
 	long index=0;
-        
+
 	rc = card.gets(sd_char,3);	//NULL
 	memcpy(head.NULL_BYTE,sd_char,3);
-	
-	rc = card.gets(sd_char,8);	//±êÊ¶·û
+
+	rc = card.gets(sd_char,8);	//ï¿½ï¿½Ê¶ï¿½ï¿½
 	memcpy(head.identifier,sd_char,8);
-	
-/*----------ÅÐ¶ÏÎÄ¼þ¸ñÊ½-----------*/
+
+/*----------ï¿½Ð¶ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê½-----------*/
 	head.identifier[7]=0;
 	if(!strstr((char *)&head.identifier[0],"MKSDLP"))
 		{
-		card.printingHasFinished();		//·ÇMKSDLPÎÄ¼þ¸ñÊ½£¬²»´òÓ¡
+		card.printingHasFinished();		//ï¿½ï¿½MKSDLPï¿½Ä¼ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡
 		return;
 		}
 
-/*------------Ìø¹ýÔ¤ÀÀÍ¼-------------*/
+/*------------ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½Í¼-------------*/
 	index = 3+8+20000+2+80000+2;
 	card.setIndex(index);
-		
-	rc = card.gets(sd_char,2);	//×Ü²ãÊý
+
+	rc = card.gets(sd_char,2);	//ï¿½Ü²ï¿½ï¿½ï¿½
 	head.totalLayers = sd_char[0]<<8 | sd_char[1];
 
-	rc = card.gets(sd_char,2);	//X·Ö±æÂÊ
+	rc = card.gets(sd_char,2);	//Xï¿½Ö±ï¿½ï¿½ï¿½
 	head.XRatio = sd_char[0]<<8 | sd_char[1];
 
-	rc = card.gets(sd_char,2);	//Y·Ö±æÂÊ
+	rc = card.gets(sd_char,2);	//Yï¿½Ö±ï¿½ï¿½ï¿½
 	head.YRatio = sd_char[0]<<8 | sd_char[1];
 
-	rc = card.gets(sd_char,4);	
+	rc = card.gets(sd_char,4);
 	head.X_range_len = sd_char[3];
-	rc = card.gets(sd_char,head.X_range_len);	
-	head.X_range = strting2float(sd_char,head.X_range_len);	//XÆ½Ì¨³¤¶È
-	
-	rc = card.gets(sd_char,4);	
+	rc = card.gets(sd_char,head.X_range_len);
+	head.X_range = strting2float(sd_char,head.X_range_len);	//XÆ½Ì¨ï¿½ï¿½ï¿½ï¿½
+
+	rc = card.gets(sd_char,4);
 	head.Y_range_len = sd_char[3];
 	rc = card.gets(sd_char,head.Y_range_len);
-	head.Y_range = strting2float(sd_char,head.Y_range_len);//YÆ½Ì¨³¤¶È
+	head.Y_range = strting2float(sd_char,head.Y_range_len);//YÆ½Ì¨ï¿½ï¿½ï¿½ï¿½
 
-	rc = card.gets(sd_char,4);	
+	rc = card.gets(sd_char,4);
 	head.thickness_len = sd_char[3];
 	rc = card.gets(sd_char,head.thickness_len);
-	head.thickness = THICKNESS_RATION * strting2float(sd_char,head.thickness_len);//²ãºñ
+	head.thickness = THICKNESS_RATION * strting2float(sd_char,head.thickness_len);//ï¿½ï¿½ï¿½ï¿½
 
-	rc = card.gets(sd_char,2);	//ÆØ¹âÊ±¼ä
+	rc = card.gets(sd_char,2);	//ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
 	//head.LedOnTime = (sd_char[0]<<8 | sd_char[1])*1000;
 	set_LedOnTime(sd_char[0]<<8 | sd_char[1]);
-	
 
-	rc = card.gets(sd_char,2);	//ÃðµÆÊ±¼ä
+
+	rc = card.gets(sd_char,2);	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	//head.LedOffTime = (sd_char[0]<<8 | sd_char[1])*1000;
 	set_LedOffTime(sd_char[0]<<8 | sd_char[1]);
 
-	rc = card.gets(sd_char,2);	//µ×²ãÆØ¹âÊ±¼ä
+	rc = card.gets(sd_char,2);	//ï¿½×²ï¿½ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
 	//head.BottomLedOnTime = (sd_char[0]<<8 | sd_char[1])*1000;
 	set_BottomLedOnTime(sd_char[0]<<8 | sd_char[1]);
-	
-	rc = card.gets(sd_char,2);	//µ×²ã²ãÊý
+
+	rc = card.gets(sd_char,2);	//ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½
 	//head.Bottomlayers = sd_char[0]<<8 | sd_char[1];
 	set_Bottomlayers(sd_char[0]<<8 | sd_char[1]);
-		
+
 	status_init();
-	
+
 }
 
 void MKS_DLP::getHead1()
@@ -389,71 +389,71 @@ void MKS_DLP::getHead1()
 
 		rc = card.gets(sd_char,3);	//NULL
 		memcpy(head.NULL_BYTE,sd_char,3);
-		
-		rc = card.gets(sd_char,8);	//±êÊ¶·û
+
+		rc = card.gets(sd_char,8);	//ï¿½ï¿½Ê¶ï¿½ï¿½
 		memcpy(head.identifier,sd_char,8);
-		
-	/*----------ÅÐ¶ÏÎÄ¼þ¸ñÊ½-----------*/
+
+	/*----------ï¿½Ð¶ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê½-----------*/
 		head.identifier[7]=0;
 		if(!strstr((char *)&head.identifier[0],"MKSDLP"))
 			{
-			card.printingHasFinished(); 	//·ÇMKSDLPÎÄ¼þ¸ñÊ½£¬²»´òÓ¡
+			card.printingHasFinished(); 	//ï¿½ï¿½MKSDLPï¿½Ä¼ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡
 			return;
 			}
-	
-	/*------------Ìø¹ýÔ¤ÀÀÍ¼-------------*/
+
+	/*------------ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½Í¼-------------*/
 		index = 3+8+26912+2+168200+2;
 		card.setIndex(index);
-			
-		rc = card.gets(sd_char,2);	//×Ü²ãÊý
+
+		rc = card.gets(sd_char,2);	//ï¿½Ü²ï¿½ï¿½ï¿½
 		head.totalLayers = sd_char[0]<<8 | sd_char[1];
-	
-		rc = card.gets(sd_char,2);	//X·Ö±æÂÊ
+
+		rc = card.gets(sd_char,2);	//Xï¿½Ö±ï¿½ï¿½ï¿½
 		head.XRatio = sd_char[0]<<8 | sd_char[1];
-	
-		rc = card.gets(sd_char,2);	//Y·Ö±æÂÊ
+
+		rc = card.gets(sd_char,2);	//Yï¿½Ö±ï¿½ï¿½ï¿½
 		head.YRatio = sd_char[0]<<8 | sd_char[1];
-	
-		rc = card.gets(sd_char,4);	
+
+		rc = card.gets(sd_char,4);
 		head.X_range_len = sd_char[3];
-		rc = card.gets(sd_char,head.X_range_len);	
-		head.X_range = strting2float(sd_char,head.X_range_len); //XÆ½Ì¨³¤¶È
-		
-		rc = card.gets(sd_char,4);	
+		rc = card.gets(sd_char,head.X_range_len);
+		head.X_range = strting2float(sd_char,head.X_range_len); //XÆ½Ì¨ï¿½ï¿½ï¿½ï¿½
+
+		rc = card.gets(sd_char,4);
 		head.Y_range_len = sd_char[3];
 		rc = card.gets(sd_char,head.Y_range_len);
-		head.Y_range = strting2float(sd_char,head.Y_range_len);//YÆ½Ì¨³¤¶È
-	
-		rc = card.gets(sd_char,4);	
+		head.Y_range = strting2float(sd_char,head.Y_range_len);//YÆ½Ì¨ï¿½ï¿½ï¿½ï¿½
+
+		rc = card.gets(sd_char,4);
 		head.thickness_len = sd_char[3];
 		rc = card.gets(sd_char,head.thickness_len);
-		head.thickness = THICKNESS_RATION * strting2float(sd_char,head.thickness_len);//²ãºñ
+		head.thickness = THICKNESS_RATION * strting2float(sd_char,head.thickness_len);//ï¿½ï¿½ï¿½ï¿½
 }
 void MKS_DLP::getHead2()
 {
 	BYTE sd_char[32];
 	uint8_t rc;
 
-	rc = card.gets(sd_char,2);	//ÆØ¹âÊ±¼ä
+	rc = card.gets(sd_char,2);	//ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
 	set_LedOnTime(sd_char[0]<<8 | sd_char[1]);
 
-	rc = card.gets(sd_char,2);	//ÃðµÆÊ±¼ä
+	rc = card.gets(sd_char,2);	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	set_LedOffTime(sd_char[0]<<8 | sd_char[1]);
 
-	rc = card.gets(sd_char,2);	//µ×²ãÆØ¹âÊ±¼ä
+	rc = card.gets(sd_char,2);	//ï¿½×²ï¿½ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
 	set_BottomLedOnTime(sd_char[0]<<8 | sd_char[1]);
-	
-	rc = card.gets(sd_char,2);	//µ×²ã²ãÊý
+
+	rc = card.gets(sd_char,2);	//ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½
 	set_Bottomlayers(sd_char[0]<<8 | sd_char[1]);
 
-	//ÓÉÓÚ¼æÈÝcbddlp£¬Ðè×öÒ»¸öÏà¹ØµÄ×ª»»
-	head.LedOnTime_bak=head.LedOnTime;//ÆØ¹âÊ±¼ä
-	head.BottomLedOnTime_bak=head.BottomLedOnTime;	//µ×²ãÆØ¹âÊ±¼ä
+	//ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½cbddlpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½×ªï¿½ï¿½
+	head.LedOnTime_bak=head.LedOnTime;//ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
+	head.BottomLedOnTime_bak=head.BottomLedOnTime;	//ï¿½×²ï¿½ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
 }
 void MKS_DLP::startFileprint()
 {
 	cbddlp_file_header.antiAliasingLevel=0;
-    mksdlp.ssd.init();//ÖØÐÂ³õÊ¼»¯2kÆÁ£¬±ÜÃâ³¤Ê±¼ä´ý»úÖ®ºó£¬2kÆÁÎÞ·¨Õý³£´òÓ¡¡£
+    mksdlp.ssd.init();//ï¿½ï¿½ï¿½Â³ï¿½Ê¼ï¿½ï¿½2kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â³¤Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½2kï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½
 	getHead1();
 	getHead2();
 	clean_Information_layer();
@@ -484,7 +484,7 @@ uint8_t MKS_DLP::bank2disp_enable(uint8_t bank_used_id,uint8_t scan_en,uint8_t r
 	cmd.mark = 0;
 	cmd.data1 = 0;
 	//cmd.data2 =  (bank_used_id<<4 | 0xC0)&0xF0;
-	//cmd.data2 =  (bank_used_id<<4 | 0x80)&0xF0;		//²»ÔÊÐí¶ÁSDRAM
+	//cmd.data2 =  (bank_used_id<<4 | 0x80)&0xF0;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SDRAM
 	cmd.data2 = ((scan_en<<7)|(rd_sdram_en<<6)|(bank_used_id<<4))&0xF0;
 	for(uint8_t i=0;i<MAX_RETRAN_TIMES;i++)
 		{
@@ -502,23 +502,23 @@ uint8_t MKS_DLP::bank2disp_enable(uint8_t bank_used_id,uint8_t scan_en,uint8_t r
 
 uint8_t MKS_DLP:: reTransmission()
 {
-	for(uint8_t i=0;i<MAX_RETRAN_TIMES;i++)		
+	for(uint8_t i=0;i<MAX_RETRAN_TIMES;i++)
 		{
 		reTransmission_all_cnt++;
 		CPLD_SPI_CS_OP = 0;
-		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //Æô¶¯DMA·¢ËÍ
+		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //ï¿½ï¿½ï¿½ï¿½DMAï¿½ï¿½ï¿½ï¿½
 		*spi1_hdmatx_CR &= 0xFFFFFFF7;
 
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+#if ENABLED(MKS_DLP_WRITE_FILE)
 				uint8_t *p;
 				p = &bmp.line.d_frame_bakup[0];
 				for(uint8_t i=0;i<TXDATA_LEN;i++)
 					f_printf(&file,"%02x",*p++);
 				f_printf(&file,"\n");
-#endif		
-		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É
+#endif
+		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CPLD_SPI_CS_OP = 1;
-		for(volatile uint8_t k=0;k<10;k++){;}	
+		for(volatile uint8_t k=0;k<10;k++){;}
 		bmp.line.crc_status = CPLD_CRC_IP;
 		if(bmp.line.crc_status == 1)
 			return 1;
@@ -526,138 +526,138 @@ uint8_t MKS_DLP:: reTransmission()
 	return 0;
 }
 /*******************************************************************************
-ÕûÐÐÌî³ä1
-flag =0 ,Ìî³äÇ°°ëÒ³,·¶Î§(0~line-1)
-flag = 1,Ìî³äºó°ëÒ³,·¶Î§(line~2560-1)
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
+flag =0 ,ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ò³,ï¿½ï¿½Î§(0~line-1)
+flag = 1,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³,ï¿½ï¿½Î§(line~2560-1)
 *******************************************************************************/
 void MKS_DLP:: line_fill_all_one(uint8_t bank_used_id)
 {
 	uint16_t cur_line,startLine,endLine;
 	uint8_t cur_block;
-	
+
 	startLine = 0;
 	endLine = X_RATIO;
 
 	for(cur_line=startLine;cur_line<endLine;cur_line++)
 		{
-		
+
 		bmp.line.d_frame.mark1 = 0x40 | (bank_used_id<<4) | ((cur_line >> 8)&0x0F);
 		bmp.line.d_frame.mark2 =  cur_line&0xFF;
 		memset(bmp.line.d_frame.data,0xff,DATA_LEN);
 		bmp.line.d_frame.CRC16 = CRC16_XMODEM(&bmp.line.d_frame.mark1,DATA_CRC_LEN);
 
-		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É
+		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		bmp.line.crc_status = CPLD_CRC_IP;
-		if(bmp.line.crc_status == 0)	//ÖØ´«ÅÐ¶Ï
+		if(bmp.line.crc_status == 0)	//ï¿½Ø´ï¿½ï¿½Ð¶ï¿½
 		{
 			reTransmission();
 			reTransmission_zero_cnt++;
 		}
-		
+
 		CPLD_SPI_CS_OP = 0;
 		memcpy(&bmp.line.d_frame_bakup[0],&bmp.line.d_frame.mark1,TXDATA_LEN);
-		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //Æô¶¯DMA·¢ËÍ
+		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //ï¿½ï¿½ï¿½ï¿½DMAï¿½ï¿½ï¿½ï¿½
 		//hspi1.hdmatx.Instance.CR |= DMA_IT_TC | DMA_IT_TE | DMA_IT_DME;
 		*spi1_hdmatx_CR &= 0xFFFFFFF7;
-		
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		uint8_t *p;
 		p = &bmp.line.d_frame.mark1;
 		for(uint8_t i=0;i<TXDATA_LEN;i++)
 			f_printf(&file,"%02x",*p++);
 		f_printf(&file,"\n");
-#endif		
+#endif
 		//if(cur_line%100 == 0)	idle();
 		}
 
-	while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É
-	CPLD_SPI_CS_OP = 1;												
+	while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	CPLD_SPI_CS_OP = 1;
 }
 
 /*******************************************************************************
-ÕûÐÐÌî³ä0
-flag =0 ,Ìî³äÇ°°ëÒ³,·¶Î§(0~line-1)
-flag = 1,Ìî³äºó°ëÒ³,·¶Î§(line~2560-1)
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
+flag =0 ,ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ò³,ï¿½ï¿½Î§(0~line-1)
+flag = 1,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³,ï¿½ï¿½Î§(line~2560-1)
 *******************************************************************************/
 void MKS_DLP:: line_fill_all_zero(char flag,uint16_t line,uint8_t bank_used_id)
 {
 	uint16_t cur_line,startLine,endLine;
 	uint8_t cur_block;
-	
+
 	if(flag == 0)	{startLine = 0;	endLine= line;	}
 	else	{	startLine = line; endLine = X_RATIO;}
 
 	for(cur_line=startLine;cur_line<endLine;cur_line++)
 		{
-		
+
 		bmp.line.d_frame.mark1 = 0x40 | (bank_used_id<<4) | ((cur_line >> 8)&0x0F);
 		bmp.line.d_frame.mark2 =  cur_line&0xFF;
 		memset(bmp.line.d_frame.data,0,DATA_LEN);
 		bmp.line.d_frame.CRC16 = CRC16_XMODEM(&bmp.line.d_frame.mark1,DATA_CRC_LEN);
 
-		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É
+		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		bmp.line.crc_status = CPLD_CRC_IP;
-		if(bmp.line.crc_status == 0)	//ÖØ´«ÅÐ¶Ï
+		if(bmp.line.crc_status == 0)	//ï¿½Ø´ï¿½ï¿½Ð¶ï¿½
 			{
 			reTransmission();
 			reTransmission_zero_cnt++;
 			}
-		
+
 		CPLD_SPI_CS_OP = 0;
 		memcpy(&bmp.line.d_frame_bakup[0],&bmp.line.d_frame.mark1,TXDATA_LEN);
-		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //Æô¶¯DMA·¢ËÍ
+		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //ï¿½ï¿½ï¿½ï¿½DMAï¿½ï¿½ï¿½ï¿½
 		//hspi1.hdmatx.Instance.CR |= DMA_IT_TC | DMA_IT_TE | DMA_IT_DME;
 		*spi1_hdmatx_CR &= 0xFFFFFFF7;
-		
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		uint8_t *p;
 		p = &bmp.line.d_frame.mark1;
 		for(uint8_t i=0;i<TXDATA_LEN;i++)
 			f_printf(&file,"%02x",*p++);
 		f_printf(&file,"\n");
-#endif		
+#endif
 		//if(cur_line%100 == 0)	idle();
 		}
 
-	while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É
-	CPLD_SPI_CS_OP = 1;												
+	while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	CPLD_SPI_CS_OP = 1;
 }
 
 void MKS_DLP:: line_fill_zero(uint16_t line,uint8_t bank_used_id)
 {
 	uint16_t cur_line;
 	uint8_t cur_block;
-	
+
 		cur_line = line;
-		
+
 		bmp.line.d_frame.mark1 = 0x40 | (bank_used_id<<4) | ((cur_line >> 8)&0x0F);//tan ---Ð´sdram
 		bmp.line.d_frame.mark2 =  cur_line&0xFF;
-		memset(bmp.line.d_frame.data,0,DATA_LEN);       //tan ---´«ÊäÊý¾ÝÈ«Îª0
+		memset(bmp.line.d_frame.data,0,DATA_LEN);       //tan ---ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«Îª0
 		bmp.line.d_frame.CRC16 = CRC16_XMODEM(&bmp.line.d_frame.mark1,DATA_CRC_LEN);
 
-		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É
+		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		bmp.line.crc_status = CPLD_CRC_IP;
-		if(bmp.line.crc_status == 0)	//ÖØ´«ÅÐ¶Ï
+		if(bmp.line.crc_status == 0)	//ï¿½Ø´ï¿½ï¿½Ð¶ï¿½
 			{
 			reTransmission();
 			reTransmission_zero_cnt++;
 			}
-		
+
 		CPLD_SPI_CS_OP = 0;
 		memcpy(&bmp.line.d_frame_bakup[0],&bmp.line.d_frame.mark1,TXDATA_LEN);
-		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //Æô¶¯DMA·¢ËÍ
+		HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);	  //ï¿½ï¿½ï¿½ï¿½DMAï¿½ï¿½ï¿½ï¿½
 		*spi1_hdmatx_CR &= 0xFFFFFFF7;
-		
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		uint8_t *p;
 		p = &bmp.line.d_frame.mark1;
 		for(uint8_t i=0;i<TXDATA_LEN;i++)
 			f_printf(&file,"%02x",*p++);
 		f_printf(&file,"\n");
-#endif		
+#endif
 
 }
 
@@ -669,47 +669,47 @@ void MKS_DLP::line_gen_data(uint16_t line,uint8_t bank_used_id)
 	uint8_t pixel_sum = 0;
 	uint8_t *p,*q;
 	uint8_t i,j;
-	
+
 	bmp.line.d_frame.mark1 = 0x40 | (bank_used_id<<4) | ((line >> 8)&0x0F);//tan ---Ð´sdram
 	bmp.line.d_frame.mark2 =  line&0xFF;
 	memset(bmp.line.d_frame.data,0,DATA_LEN);
 
 	p=bmp.line.d_frame.data;
-	q = Line_Pixel;         //tan ---´ÓÇÐÆ¬ÖÐ£¬ÒÑ½âÎö³öÀ´µÄÒ»ÐÐÊý¾Ý(2kÆÁÏÔÊ¾µÄÊý¾Ý)
-	for(i=0;i<DATA_LEN;i++) //tan ---½«Êý¾Ý´ÓLine_Pixel¸´ÖÆµ½bmp.line.d_frame.data
+	q = Line_Pixel;         //tan ---ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½Ð£ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(2kï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	for(i=0;i<DATA_LEN;i++) //tan ---ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½Line_Pixelï¿½ï¿½ï¿½Æµï¿½bmp.line.d_frame.data
 	{
 		for(j=0;j<8;j++)
 		{
-			*p <<= 1;     //tan ---bmp.line.d_frame.data×óÒÆÒ»Î»£¬Ñ­»·8´Î£¬½«Line_Pixel[]µÄÊý¾Ý×ª»»
-			if(*q++ == 1)//tan ---½«Line_Pixel°´×Ö½ÚËã×ª»»Îª°´Î»Ëã·Åµ½bmp.line.d_frame.data
+			*p <<= 1;     //tan ---bmp.line.d_frame.dataï¿½ï¿½ï¿½ï¿½Ò»Î»ï¿½ï¿½Ñ­ï¿½ï¿½8ï¿½Î£ï¿½ï¿½ï¿½Line_Pixel[]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
+			if(*q++ == 1)//tan ---ï¿½ï¿½Line_Pixelï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½Î»ï¿½ï¿½ï¿½Åµï¿½bmp.line.d_frame.data
 				*p |= 1;
 		}
 		p++;
 	}
 	bmp.line.d_frame.CRC16 = CRC16_XMODEM(&bmp.line.d_frame.mark1,DATA_CRC_LEN);
 
-	while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);		  		//µÈ´ýDMA·¢ËÍÍê³É
+	while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);		  		//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	bmp.line.crc_status = CPLD_CRC_IP;              //tan ---¼ì²âcrc¹Ü½Å£¬¸ßµçÆ½Ð£ÑéÕý³£¡£
-	if(bmp.line.crc_status == 0)	//ÖØ´«ÅÐ¶Ï
+	bmp.line.crc_status = CPLD_CRC_IP;              //tan ---ï¿½ï¿½ï¿½ï¿½crcï¿½Ü½Å£ï¿½ï¿½ßµï¿½Æ½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(bmp.line.crc_status == 0)	//ï¿½Ø´ï¿½ï¿½Ð¶ï¿½
 	{
 		reTransmission();
 		reTransmission_data_cnt++;
 	}
-	
+
 	CPLD_SPI_CS_OP = 0;
 	memcpy(&bmp.line.d_frame_bakup[0],&bmp.line.d_frame.mark1,TXDATA_LEN);
-	HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);   //Æô¶¯DMA·¢ËÍ
+	HAL_SPI_Transmit_DMA(&hspin, &bmp.line.d_frame_bakup[0], TXDATA_LEN);   //ï¿½ï¿½ï¿½ï¿½DMAï¿½ï¿½ï¿½ï¿½
 	*spi1_hdmatx_CR &= 0xFFFFFFF7;
-	
-	
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+
+
+#if ENABLED(MKS_DLP_WRITE_FILE)
 	p = &bmp.line.d_frame.mark1;
 	for(i=0;i<TXDATA_LEN;i++)
 		f_printf(&file,"%02x",*p++);
 	f_printf(&file,"\n");
 #endif
-	
+
 }
 
 void MKS_DLP::line_gen_data_TFT(uint16_t line)
@@ -717,14 +717,14 @@ void MKS_DLP::line_gen_data_TFT(uint16_t line)
 	uint16_t line_tft;
 	uint8_t *p,*q;
 	uint8_t i,j;
-	
-	if(line%REDUCE_RATION != 0)	return;
+
+	if(line%REDUCE_RATIO != 0)	return;
 	if(line == 0)	return;
-	
-	line_tft = line/REDUCE_RATION - 1; 
+
+	line_tft = line/REDUCE_RATIO - 1;
 	p=&bmp_layer_buf[line_tft*DATA_LEN_TFT];
 	q = Line_Pixel;
-	
+
 	for(i=0;i<DATA_LEN_TFT;i++)
 		{
 		for(j=0;j<8;j++)
@@ -732,77 +732,77 @@ void MKS_DLP::line_gen_data_TFT(uint16_t line)
 			*p <<= 1;
 			if(*q == 1)
 				*p |= 1;
-			q += REDUCE_RATION;
+			q += REDUCE_RATIO;
 			if(((q-Line_Pixel)>= Y_RATIO/2) && ((q-Line_Pixel)<= (Y_RATIO/2+FILLCODE)))
 				q += FILLCODE;
 			}
 		p++;
 		}
-	
+
 }
 
 
 
 /*******************************************************************************
-¶ÁÈ¡Ò»ÕÅÍ¼Æ¬µÄÊý¾Ý£¬·¢ËÍ¸øCPLD»òÐ´ÈëÎÄ¼þ
+ï¿½ï¿½È¡Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½Í¸ï¿½CPLDï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ä¼ï¿½
 *******************************************************************************/
-void MKS_DLP::get_sdcard_bmps() 
+void MKS_DLP::get_sdcard_bmps()
 {
 	BYTE sd_char[32];
 	uint8_t rc;
 	uint8_t tailed;
 	uint8_t *p;
-		
+
 	if (!card.sdprinting) return;
 	bool card_eof = card.eof();
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+#if ENABLED(MKS_DLP_WRITE_FILE)
 	open_file();
 #endif
 	mksReprint.sdpos = card.getsdpos();
 
-	rc = card.gets(sd_char,4);	
-	//bmp.totalPoint = sd_char[0]<<8 | sd_char[1];	//×ÜµãÊý
-	bmp.totalPoint = sd_char[0]<<24 | sd_char[1]<<16 | sd_char[2]<<8 | sd_char[3];	//×ÜµãÊý
-	
+	rc = card.gets(sd_char,4);
+	//bmp.totalPoint = sd_char[0]<<8 | sd_char[1];	//ï¿½Üµï¿½ï¿½ï¿½
+	bmp.totalPoint = sd_char[0]<<24 | sd_char[1]<<16 | sd_char[2]<<8 | sd_char[3];	//ï¿½Üµï¿½ï¿½ï¿½
+
 	memset(Line_Pixel,0,sizeof(Line_Pixel));
 	memset(&bmp_layer_buf[0],0,DATA_LEN_TFT*X_RATIO_TFT);
 	for(int i=0;i<bmp.totalPoint;i++)
 	{
-		rc = card.gets(sd_char,2);					
-		bmp.line.start_py = sd_char[0]<<8 | sd_char[1];	//ÆðÊ¼µã
+		rc = card.gets(sd_char,2);
+		bmp.line.start_py = sd_char[0]<<8 | sd_char[1];	//ï¿½ï¿½Ê¼ï¿½ï¿½
 		if(bmp.line.start_py > Y_RATIO-1) bmp.line.start_py = Y_RATIO-1;
-			
+
 		rc = card.gets(sd_char,2);
-		bmp.line.end_py = sd_char[0]<<8 | sd_char[1];	//½áÊøµã
+		bmp.line.end_py = sd_char[0]<<8 | sd_char[1];	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(bmp.line.end_py > Y_RATIO-1) bmp.line.end_py = Y_RATIO-1;
-		
+
 		rc = card.gets(sd_char,2);
-		bmp.coordinate_X = sd_char[0]<<8 | sd_char[1];	//ÐÐºÅ
+		bmp.coordinate_X = sd_char[0]<<8 | sd_char[1];	//ï¿½Ðºï¿½
 		if(bmp.coordinate_X > X_RATIO-1) bmp.coordinate_X = X_RATIO-1;
-		
-		if(i==0)// tan ---µÚÒ»ÐÐ¿ªÊ¼Ö®Ç°£¬Ç°ÃæµÄÐÐÈ«²¿Ìî0
+
+		if(i==0)// tan ---ï¿½ï¿½Ò»ï¿½Ð¿ï¿½Ê¼Ö®Ç°ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½0
 			{
-					//Ç°ÃæÐÐÌî³ä"0"
-				line_fill_all_zero(0,bmp.coordinate_X,WORK_USED_BANK);	
-				bmp.current_line = 	bmp.coordinate_X;	//tan ---ÓÐµãÁÁÊý¾ÝµÄ¿ªÊ¼ÐÐ£¬´Ë´¦ÎªµãÁÁ2kÆÁµÄÆðÊ¼ÐÐ				
+					//Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"0"
+				line_fill_all_zero(0,bmp.coordinate_X,WORK_USED_BANK);
+				bmp.current_line = 	bmp.coordinate_X;	//tan ---ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÝµÄ¿ï¿½Ê¼ï¿½Ð£ï¿½ï¿½Ë´ï¿½Îªï¿½ï¿½ï¿½ï¿½2kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 			}
-		
-		if(bmp.current_line == bmp.coordinate_X)    //tan ---½«ÇÐÆ¬³öÀ´µÄÍ¼Æ¬Êý¾ÝÐèÒªµãÁÁ²¿·Ö×ª³É1
+
+		if(bmp.current_line == bmp.coordinate_X)    //tan ---ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½1
 			{
-			p = &Line_Pixel[bmp.line.start_py];     //tan ---Ã¿Ò»ÐÐµÄÊý¾Ý£¬(Àí½âÎª:Ò»¸ö×Ö½ÚÎª2kÆÁµÄÒ»¸öµã)£¬ÓÉÆðÊ¼µãµ½½áÊøµã£¬¶¼Ð´1£¬ÕâÑù¾Í¿ÉÒÔ×ª³É2kÆÁµÄÏÔÊ¾Êý¾Ý
-			for(int j = bmp.line.start_py;j<bmp.line.end_py+1;j++)  
+			p = &Line_Pixel[bmp.line.start_py];     //tan ---Ã¿Ò»ï¿½Ðµï¿½ï¿½ï¿½ï¿½Ý£ï¿½(ï¿½ï¿½ï¿½ï¿½Îª:Ò»ï¿½ï¿½ï¿½Ö½ï¿½Îª2kï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ãµ½ï¿½ï¿½ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½Ð´1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½×ªï¿½ï¿½2kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
+			for(int j = bmp.line.start_py;j<bmp.line.end_py+1;j++)
 				{
-					if(j<Y_RATIO/2)	{*p = 1;}           //tan ---Ç°°ëÒ³µãÁÁÊý¾Ý
-					else			{*(p+FILLCODE) = 1;}//tan ---ºó°ëÒ³µãÁÁÊý¾Ý(ÓÉÓÚÓÐÌî³ä48Î»)
+					if(j<Y_RATIO/2)	{*p = 1;}           //tan ---Ç°ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					else			{*(p+FILLCODE) = 1;}//tan ---ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½48Î»)
 					p++;
 				}
 			}
 		else
 			{
-			line_gen_data(bmp.current_line,WORK_USED_BANK);			//Ò»ÐÐÍê³É//tan ---×éºÏÒ»ÐÐÊý¾Ý¸ñÊ½£¬²¢·¢ËÍµ½sdramÖÐ
+			line_gen_data(bmp.current_line,WORK_USED_BANK);			//Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½//tan ---ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½sdramï¿½ï¿½
 			line_gen_data_TFT(bmp.current_line);
 /*----------------------------------------*/
-			while((bmp.coordinate_X - bmp.current_line) > 1)        //tan ---ÎªÊ²Ã´ÔÚ´«ÍêÒ»ÐÐÖ®ºó£¬µÚ¶þÐÐÒª´«0¡£ÕâÊÇÒòÎªÖÐ¼äÓÐ¿ÕÏ¶µÄ¡£
+			while((bmp.coordinate_X - bmp.current_line) > 1)        //tan ---ÎªÊ²Ã´ï¿½Ú´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ö®ï¿½ó£¬µÚ¶ï¿½ï¿½ï¿½Òªï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ð¼ï¿½ï¿½Ð¿ï¿½Ï¶ï¿½Ä¡ï¿½
 			{
 				bmp.current_line++;
 				line_fill_zero(bmp.current_line,WORK_USED_BANK);
@@ -810,54 +810,54 @@ void MKS_DLP::get_sdcard_bmps()
 /*----------------------------------------*/
 
 			bmp.current_line = bmp.coordinate_X;
-			
-			
-			memset(Line_Pixel,0,sizeof(Line_Pixel));//tan ---Çå¿ÕÊý¾Ý
-			p = &Line_Pixel[bmp.line.start_py];       //tan ---½«ÇÐÆ¬Êý¾Ý½âÎöµ½Line_Pixel
-			for(int j = bmp.line.start_py;j<bmp.line.end_py+1;j++) 
+
+
+			memset(Line_Pixel,0,sizeof(Line_Pixel));//tan ---ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			p = &Line_Pixel[bmp.line.start_py];       //tan ---ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½Ý½ï¿½ï¿½ï¿½ï¿½ï¿½Line_Pixel
+			for(int j = bmp.line.start_py;j<bmp.line.end_py+1;j++)
 			{
 					if(j<Y_RATIO/2)	{*p = 1;}
 					else			{*(p+FILLCODE) = 1;}
 					p++;
 			}
 			}
-		
+
 	}
 
 		if(bmp.totalPoint>1)
 			{
-			line_gen_data(bmp.current_line,WORK_USED_BANK);		//×îºóÒ»ÐÐ
+			line_gen_data(bmp.current_line,WORK_USED_BANK);		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 			line_gen_data_TFT(bmp.current_line);
 			}
-		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É	
+		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CPLD_SPI_CS_OP = 1;
 
-		line_fill_all_zero(1,bmp.current_line+1,WORK_USED_BANK);		//ºóÃæÐÐÌî³ä"0"
+		line_fill_all_zero(1,bmp.current_line+1,WORK_USED_BANK);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"0"
 
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+#if ENABLED(MKS_DLP_WRITE_FILE)
 			close_file();
-#endif	
+#endif
 		rc = card.gets(sd_char,2);
 		if(sd_char[0] != 0x0D || sd_char[1] != 0x0A)
 			{
-				find_next_bmp();		//Ñ°ÕÒÏÂÒ»¸ö 0D,0A±êÊ¶
+				find_next_bmp();		//Ñ°ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ 0D,0Aï¿½ï¿½Ê¶
 			}
 }
 
 uint8_t aalay_cnt=0;
 
-void MKS_DLP::bottomLayerPrint() 
+void MKS_DLP::bottomLayerPrint()
 {
 	uint8_t aa_i;
-	
-	if(status.curBottomlayers == 0) //¶ÁÈ¡µ×²ãÍ¼Æ¬
+
+	if(status.curBottomlayers == 0) //ï¿½ï¿½È¡ï¿½×²ï¿½Í¼Æ¬
 		{
 		bank2disp_enable(WORK_USED_BANK,0,0);
 		if(mksdlp.print_file_type==1)
 		{
 			get_sdcard_bmps();
 			status.exposure = true;
-			bank2disp_enable(WORK_USED_BANK,1,1);	//ÏÔÊ¾Í¼Æ¬
+			bank2disp_enable(WORK_USED_BANK,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
 		}
 		else
 		{
@@ -870,38 +870,38 @@ void MKS_DLP::bottomLayerPrint()
 					decode_layer_from_rle((uint32_t)status.curBottomlayers+aa_i*cbddlp_file_header.numberOfLayers,aa_i);
 				}
 				status.exposure = true;
-				bank2disp_enable(BANK_USED_ID0,1,1);	//ÏÔÊ¾Í¼Æ¬				
+				bank2disp_enable(BANK_USED_ID0,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
 			}
 			else
 			{
 				decode_layer_from_rle((uint32_t)status.curBottomlayers,WORK_USED_BANK);
 				status.exposure = true;
-				bank2disp_enable(WORK_USED_BANK,1,1);	//ÏÔÊ¾Í¼Æ¬
+				bank2disp_enable(WORK_USED_BANK,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
 			}
 		}
 
 		destination[Z_AXIS] = head.thickness;
-		do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ÒÆ¶¯ZÖá£¬
+		do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ï¿½Æ¶ï¿½Zï¿½á£¬
 		stepper.synchronize();
 		report_current_position();
 
 		status.curBottomlayers++;
-#if defined(MKS_DLP_DEBUG)		
+#if defined(MKS_DLP_DEBUG)
 		report_mksdlp_position();
-#endif		
-		led_on(); 				//¿ªÆØ¹â
-		clr_ticket();	
+#endif
+		led_on(); 				//ï¿½ï¿½ï¿½Ø¹ï¿½
+		clr_ticket();
 		}
-	
+
 	if((status.exposure == false && tick_ms > head.LedOffTime)
 		||(status.exposure == false && aalay_cnt>0 && cbddlp_file_header.antiAliasingLevel>1))
 	{
 		if(mksdlp.print_file_type!=1)
 		{
-			
+
 			if(cbddlp_file_header.antiAliasingLevel>1)
 			{
-				
+
 				if(aalay_cnt==0)
 				{
 					for(aa_i=0;aa_i<cbddlp_file_header.antiAliasingLevel;aa_i++)
@@ -911,69 +911,69 @@ void MKS_DLP::bottomLayerPrint()
 					}
 					led_on();
 				}
-				//decode_layer_from_rle((uint32_t)(status.curBottomlayers+aalay_cnt*cbddlp_file_header.numberOfLayers));	
+				//decode_layer_from_rle((uint32_t)(status.curBottomlayers+aalay_cnt*cbddlp_file_header.numberOfLayers));
 				//bank2disp_enable(aalay_cnt,0,0);
-				bank2disp_enable(aalay_cnt,1,1);	//ÏÔÊ¾Í¼Æ¬					
+				bank2disp_enable(aalay_cnt,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
 				aalay_cnt++;
-				status.exposure = true;  
-				//led_on();				//¿ªÆØ¹â	
+				status.exposure = true;
+				//led_on();				//ï¿½ï¿½ï¿½Ø¹ï¿½
 				clr_ticket();
 
 			}
 			else
 			{
 				decode_layer_from_rle((uint32_t)status.curBottomlayers,WORK_USED_BANK);
-				
-				bank2disp_enable(WORK_USED_BANK,1,1);	//ÏÔÊ¾Í¼Æ¬                      
-				status.exposure = true;  
-				led_on();				//¿ªÆØ¹â	
-				clr_ticket();				
+
+				bank2disp_enable(WORK_USED_BANK,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
+				status.exposure = true;
+				led_on();				//ï¿½ï¿½ï¿½Ø¹ï¿½
+				clr_ticket();
 			}
 		}
 		else
 		{
-			bank2disp_enable(WORK_USED_BANK,1,1);	//ÏÔÊ¾Í¼Æ¬                      
-			status.exposure = true;  
-			led_on();				//¿ªÆØ¹â	
+			bank2disp_enable(WORK_USED_BANK,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
+			status.exposure = true;
+			led_on();				//ï¿½ï¿½ï¿½Ø¹ï¿½
 			clr_ticket();
-		}					
+		}
 	}
-	
-	if(status.exposure == true && tick_ms > head.BottomLedOnTime_bak)	
+
+	if(status.exposure == true && tick_ms > head.BottomLedOnTime_bak)
 	{
 
 		if(status.curBottomlayers < head.Bottomlayers)
 		{
-			status.exposure = false;	
-			//led_off();			//¹Ø±ÕÆØ¹â
+			status.exposure = false;
+			//led_off();			//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
 			clr_ticket();
 			if(cbddlp_file_header.antiAliasingLevel>1)
 			{
 				if(aalay_cnt>=cbddlp_file_header.antiAliasingLevel)
 				{
 					aalay_cnt = 0;
-					LED_BACK_LIGHT_OP = 0; 
+					LED_BACK_LIGHT_OP = 0;
 					CleanDataTrans();
-					led_off();			//¹Ø±ÕÆØ¹â
+					led_off();			//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
 					write_Information_layer(DLP_MOVING);
-					moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
+					moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
 					if(mksReprint.mks_printer_state == MKS_WORKING)
-						moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
-					write_Information_layer(DLP_STOPED);				
+						moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
+					write_Information_layer(DLP_STOPED);
 					status.curBottomlayers++;
 				}
 			}
 			else
 			{
-				led_off();			//¹Ø±ÕÆØ¹â
+				led_off();			//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
 				write_Information_layer(DLP_MOVING);
-				moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
+				moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
 				if(mksReprint.mks_printer_state == MKS_WORKING)
-					moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
-				write_Information_layer(DLP_STOPED);				
+					moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
+				write_Information_layer(DLP_STOPED);
 				status.curBottomlayers++;
 			}
-#if defined(MKS_DLP_DEBUG)			
+#if defined(MKS_DLP_DEBUG)
 			report_mksdlp_position();
 #endif
 			}
@@ -990,7 +990,7 @@ void MKS_DLP::bottomLayerPrint()
 }
 
 
-void MKS_DLP::GeneralLayersPrint() 
+void MKS_DLP::GeneralLayersPrint()
 {
 	if(status.exposure == true && tick_ms > head.LedOnTime_bak)
 	{
@@ -1002,22 +1002,22 @@ void MKS_DLP::GeneralLayersPrint()
 			if(cbddlp_file_header.antiAliasingLevel>1)
 			{
 				status.exposure = false;
-				
+
 				if(aalay_cnt==0)
 				{
-					LED_BACK_LIGHT_OP = 0; 
+					LED_BACK_LIGHT_OP = 0;
 					CleanDataTrans();
-					led_off();				//¹Ø±ÕÆØ¹â
-					
+					led_off();				//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
+
 					aalay_cnt++;
 					bank2disp_enable(WORK_USED_BANK,0,0);
 					write_Information_layer(DLP_MOVING);
 
-					moveRelativeZandGetBmp(home_bump_mm_P[2],PRINT_FEEDRATE);//ÒÆ¶¯ZÖá£¬²¢¶ÁÈ¡Í¼Æ¬
-			
+					moveRelativeZandGetBmp(home_bump_mm_P[2],PRINT_FEEDRATE);//ï¿½Æ¶ï¿½Zï¿½á£¬ï¿½ï¿½ï¿½ï¿½È¡Í¼Æ¬
+
 					if(mksReprint.mks_printer_state == MKS_WORKING)
-						moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
-					write_Information_layer(DLP_STOPED);	
+						moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
+					write_Information_layer(DLP_STOPED);
 				}
 				clr_ticket();
 				//else
@@ -1030,57 +1030,57 @@ void MKS_DLP::GeneralLayersPrint()
 			else
 			{
 				status.exposure = false;
-				led_off();				//¹Ø±ÕÆØ¹â
+				led_off();				//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
 				clr_ticket();
-				
+
 				bank2disp_enable(WORK_USED_BANK,0,0);
-				
+
 				write_Information_layer(DLP_MOVING);
 
-				/*			
-				moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
-				get_sdcard_bmps();			//¶ÁÈ¡Í¼Æ¬
+				/*
+				moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
+				get_sdcard_bmps();			//ï¿½ï¿½È¡Í¼Æ¬
 				*/
-				moveRelativeZandGetBmp(home_bump_mm_P[2],PRINT_FEEDRATE);//ÒÆ¶¯ZÖá£¬²¢¶ÁÈ¡Í¼Æ¬
-				/*			
+				moveRelativeZandGetBmp(home_bump_mm_P[2],PRINT_FEEDRATE);//ï¿½Æ¶ï¿½Zï¿½á£¬ï¿½ï¿½ï¿½ï¿½È¡Í¼Æ¬
+				/*
 				write_Information_layer(DLP_MOVING);
-				moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
-				*/			
+				moveRelative_Z(home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
+				*/
 				if(mksReprint.mks_printer_state == MKS_WORKING)
-					moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ÒÆ¶¯ZÖá£¬
+					moveRelative_Z(head.thickness-home_bump_mm_P[2],PRINT_FEEDRATE);		//ï¿½Æ¶ï¿½Zï¿½á£¬
 				write_Information_layer(DLP_STOPED);
 			}
-#if defined(MKS_DLP_DEBUG)			
+#if defined(MKS_DLP_DEBUG)
 			report_mksdlp_position();
 #endif
-			//bank2disp_enable(WORK_USED_BANK,1,1);	//ÏÔÊ¾Í¼Æ¬	
+			//bank2disp_enable(WORK_USED_BANK,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
 		}
 		else
 		{
 			if(cbddlp_file_header.antiAliasingLevel>1)
 			{
-				LED_BACK_LIGHT_OP = 0; 
+				LED_BACK_LIGHT_OP = 0;
 				ExposureDataTrans_circle();
 				CleanDataTrans();
-			}		
-			printingHasFinished(); 		//´òÓ¡½áÊø
+			}
+			printingHasFinished(); 		//ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½
 		}
 	}
-	
+
 	if((status.exposure == false && tick_ms > head.LedOffTime)
 		||(status.exposure == false && aalay_cnt>0 &&cbddlp_file_header.antiAliasingLevel>1))
 	{
 
 		if(cbddlp_file_header.antiAliasingLevel>1)
 		{
-			bank2disp_enable(aalay_cnt-1,1,1);	//ÏÔÊ¾Í¼Æ¬      
+			bank2disp_enable(aalay_cnt-1,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
 			if(aalay_cnt==1)
 			{
-				led_on();			//¿ªÆØ¹â	
+				led_on();			//ï¿½ï¿½ï¿½Ø¹ï¿½
 			}
 			aalay_cnt++;
-			status.exposure = true;		
-			clr_ticket();		
+			status.exposure = true;
+			clr_ticket();
 			if(aalay_cnt-1>=cbddlp_file_header.antiAliasingLevel)
 			{
 				aalay_cnt = 0;
@@ -1089,48 +1089,48 @@ void MKS_DLP::GeneralLayersPrint()
 		}
 		else
 		{
-			bank2disp_enable(WORK_USED_BANK,1,1);	//ÏÔÊ¾Í¼Æ¬      
-			led_on();			//¿ªÆØ¹â	
-			status.exposure = true;		
-			clr_ticket();		
+			bank2disp_enable(WORK_USED_BANK,1,1);	//ï¿½ï¿½Ê¾Í¼Æ¬
+			led_on();			//ï¿½ï¿½ï¿½Ø¹ï¿½
+			status.exposure = true;
+			clr_ticket();
 			status.currentLayer++;
 		}
 	}
 
 }
 
-void MKS_DLP::get_available_bmps() 
+void MKS_DLP::get_available_bmps()
 {
 /*
 	if(status.test_exposure && tick_ms>status.test_exposure_time)
 		{
-		led_off(); 		
+		led_off();
 		status.test_exposure = false;
 		}
-*/	
+*/
 
 
 	if (!card.sdprinting) return;
-	
+
 	bool card_eof = card.eof();
 
-	//if((status.currentLayer > head.totalLayers) || card_eof)	//´òÓ¡½áÊø
+	//if((status.currentLayer > head.totalLayers) || card_eof)	//ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½
 	if((((status.currentLayer > head.totalLayers)||card_eof)&&(mksdlp.print_file_type==1))
-		||((status.currentLayer-1 > head.totalLayers)&&(mksdlp.print_file_type!=1)))	//´òÓ¡½áÊø
+		||((status.currentLayer-1 > head.totalLayers)&&(mksdlp.print_file_type!=1)))	//ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½
 		{
 		printingHasFinished();
 		return;
 		}
 
 
-	if(status.currentLayer == 0)	//µ×²ã´¦Àí
+	if(status.currentLayer == 0)	//ï¿½×²ã´¦ï¿½ï¿½
 		{
 		bottomLayerPrint();
 		}
 	else
 		{
 		GeneralLayersPrint();
-		
+
 		}
 }
 
@@ -1139,19 +1139,19 @@ void MKS_DLP::ExposureDataTrans_circle()
 	int i;
 	uint8_t *p;
 
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		open_file();
-#endif	
-	
+#endif
+
 		bank2disp_enable(TEST_USED_BANK,0,0);
-		line_fill_all_zero(0,exposure_bmp_data_circle[0][2],TEST_USED_BANK); 
+		line_fill_all_zero(0,exposure_bmp_data_circle[0][2],TEST_USED_BANK);
 		memset(&bmp_layer_buf[0],0,DATA_LEN_TFT*X_RATIO_TFT);	//TFT1
-		
+
 		for(i=0;i<CIRCLE_BMP_DATA_ROW;i++)
 			{
 			memset(Line_Pixel,0,sizeof(Line_Pixel));
 			p = &Line_Pixel[exposure_bmp_data_circle[i][0]];
-			for(int j = exposure_bmp_data_circle[i][0];j<exposure_bmp_data_circle[i][1]+1;j++)	
+			for(int j = exposure_bmp_data_circle[i][0];j<exposure_bmp_data_circle[i][1]+1;j++)
 				{
 					if(j<Y_RATIO/2) {*p = 1;}
 					else			{*(p+FILLCODE) = 1;}
@@ -1160,18 +1160,18 @@ void MKS_DLP::ExposureDataTrans_circle()
 			line_gen_data(i+exposure_bmp_data_circle[0][2],TEST_USED_BANK);
 			line_gen_data_TFT(i+exposure_bmp_data_circle[0][2]);	//TFT2
 			}
-	
-		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É	
+
+		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CPLD_SPI_CS_OP = 1;
-		
-		line_fill_all_zero(1,exposure_bmp_data_circle[CIRCLE_BMP_DATA_ROW-1][2]+1,TEST_USED_BANK);	//ºóÃæÐÐÌî³ä"0"
-				
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+
+		line_fill_all_zero(1,exposure_bmp_data_circle[CIRCLE_BMP_DATA_ROW-1][2]+1,TEST_USED_BANK);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"0"
+
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		close_file();
-#endif	
+#endif
 #if ENABLED(MKS_DLP_WRITE_TFT_FILE)
 		write_tft_file();
-#endif	
+#endif
 
 }
 
@@ -1180,19 +1180,19 @@ void MKS_DLP::CleanDataTrans()
 	int i;
 	uint8_t *p;
 
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		open_file();
-#endif	
-	
+#endif
+
 		bank2disp_enable(CLEAN_USED_BANK,0,0);
-		line_fill_all_zero(0,X_RATIO,CLEAN_USED_BANK); 
-				
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+		line_fill_all_zero(0,X_RATIO,CLEAN_USED_BANK);
+
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		close_file();
-#endif	
+#endif
 #if ENABLED(MKS_DLP_WRITE_TFT_FILE)
 		write_tft_file();
-#endif	
+#endif
 
 }
 
@@ -1201,17 +1201,17 @@ void MKS_DLP::ExposureData2TFT_circle()
 {
 		int i;
 		uint8_t *p;
-		
-			line_fill_all_zero(0,exposure_bmp_data_circle[0][2],TEST_USED_BANK); 
+
+			line_fill_all_zero(0,exposure_bmp_data_circle[0][2],TEST_USED_BANK);
 			memset(&bmp_layer_buf[0],0,DATA_LEN_TFT*X_RATIO_TFT);	//TFT1
-			
+
 			for(i=0;i<CIRCLE_BMP_DATA_ROW;i++)
 				{
-				if((i+exposure_bmp_data_circle[0][2])%REDUCE_RATION == 0)
+				if((i+exposure_bmp_data_circle[0][2])%REDUCE_RATIO == 0)
 					{
 					memset(Line_Pixel,0,sizeof(Line_Pixel));
 					p = &Line_Pixel[exposure_bmp_data_circle[i][0]];
-					for(int j = exposure_bmp_data_circle[i][0];j<exposure_bmp_data_circle[i][1]+1;j++)	
+					for(int j = exposure_bmp_data_circle[i][0];j<exposure_bmp_data_circle[i][1]+1;j++)
 						{
 						if(j<Y_RATIO/2) {*p = 1;}
 						else			{*(p+FILLCODE) = 1;}
@@ -1220,8 +1220,8 @@ void MKS_DLP::ExposureData2TFT_circle()
 					line_gen_data_TFT(i+exposure_bmp_data_circle[0][2]);	//TFT2
 					}
 				}
-		
-					
+
+
 
 }
 
@@ -1230,17 +1230,17 @@ void MKS_DLP::ExposureDataTrans_square()
 	int i;
 	uint8_t *p;
 
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+#if ENABLED(MKS_DLP_WRITE_FILE)
 		open_file();
-#endif			
+#endif
 		bank2disp_enable(TEST_USED_BANK,0,0);
-		line_fill_all_zero(0,exposure_bmp_data_square[0][2],TEST_USED_BANK); 
+		line_fill_all_zero(0,exposure_bmp_data_square[0][2],TEST_USED_BANK);
 		memset(&bmp_layer_buf[0],0,DATA_LEN_TFT*X_RATIO_TFT);	//TFT1
 		for(i=0;i<SQUARE_BMP_DATA_ROW;i++)
 			{
 			memset(Line_Pixel,0,sizeof(Line_Pixel));
 			p = &Line_Pixel[exposure_bmp_data_square[i][0]];
-			for(int j = exposure_bmp_data_square[i][0];j<exposure_bmp_data_square[i][1]+1;j++)	
+			for(int j = exposure_bmp_data_square[i][0];j<exposure_bmp_data_square[i][1]+1;j++)
 				{
 					if(j<Y_RATIO/2) {*p = 1;}
 					else			{*(p+FILLCODE) = 1;}
@@ -1249,12 +1249,12 @@ void MKS_DLP::ExposureDataTrans_square()
 			line_gen_data(i+exposure_bmp_data_square[0][2],TEST_USED_BANK);
 			line_gen_data_TFT(i+exposure_bmp_data_circle[0][2]);	//TFT2
 			}
-	
-		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//µÈ´ýDMA·¢ËÍÍê³É	
+
+		while(hdma_spin_tx.State == HAL_DMA_STATE_BUSY);				//ï¿½È´ï¿½DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CPLD_SPI_CS_OP = 1;
-	
-		line_fill_all_zero(1,exposure_bmp_data_square[SQUARE_BMP_DATA_ROW-1][2]+1,TEST_USED_BANK);	//ºóÃæÐÐÌî³ä"0"
-#if ENABLED(MKS_DLP_WRITE_FILE)	
+
+		line_fill_all_zero(1,exposure_bmp_data_square[SQUARE_BMP_DATA_ROW-1][2]+1,TEST_USED_BANK);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"0"
+#if ENABLED(MKS_DLP_WRITE_FILE)
 				close_file();
 #endif
 
@@ -1270,11 +1270,11 @@ void MKS_DLP::ExposureTest()
 	//ssd.sleep_test();
 	grag_test();
 #else
-		 
+
 
 		exposure_msg_display(2);
 		ExposureData2TFT_circle();
-		layer_pic_display(bmp_layer_buf,80,20,320,180); 	
+		layer_pic_display(bmp_layer_buf,80,20,320,180);
 
 		bank2disp_enable(TEST_USED_BANK,1,1);
 		ssd.sleep_out();
@@ -1295,17 +1295,17 @@ void MKS_DLP::ExposureTest()
 				BEEPER_OP = 1;
 				}
 #endif
-		LED_BACK_LIGHT_OP = 0; 
+		LED_BACK_LIGHT_OP = 0;
 		status.led_status = false;
-		bank2disp_enable(CLEAN_USED_BANK,1,1);	//Çå³ýÆÁÄ»
+		bank2disp_enable(CLEAN_USED_BANK,1,1);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»
 		ssd.sleep_in();
 		HAL_Delay(20);
-		bank2disp_enable(CLEAN_USED_BANK,0,0);	//¹Ø±ÕRGBÐÅºÅ
+		bank2disp_enable(CLEAN_USED_BANK,0,0);	//ï¿½Ø±ï¿½RGBï¿½Åºï¿½
 
 	if(disp_state==EXPOSURE_UI)
 		{
 		layer_pic_clean(80,20,320,180,0x0000);	//BLACK
-		exposure_msg_display(3);  
+		exposure_msg_display(3);
 		}
 #endif
 }
@@ -1313,7 +1313,7 @@ void MKS_DLP::ExposureTest()
 void MKS_DLP::ExposureAll_on()
 {
     line_fill_all_one(TEST_USED_BANK);
-    
+
     bank2disp_enable(TEST_USED_BANK,1,1);
     ssd.sleep_out();
     LED_BACK_LIGHT_OP = 1;
@@ -1321,13 +1321,13 @@ void MKS_DLP::ExposureAll_on()
 }
 void MKS_DLP::ExposureAll_off()
 {
-    LED_BACK_LIGHT_OP = 0; 
+    LED_BACK_LIGHT_OP = 0;
     status.led_status = false;
-    bank2disp_enable(CLEAN_USED_BANK,1,1);  //Çå³ýÆÁÄ»
+    bank2disp_enable(CLEAN_USED_BANK,1,1);  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»
     ssd.sleep_in();
     HAL_Delay(20);
-    bank2disp_enable(CLEAN_USED_BANK,0,0);  //¹Ø±ÕRGBÐÅºÅ
-    //»Ö¸´ÆØ¹â²âÊÔÊý¾Ý
+    bank2disp_enable(CLEAN_USED_BANK,0,0);  //ï¿½Ø±ï¿½RGBï¿½Åºï¿½
+    //ï¿½Ö¸ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     ExposureDataTrans_circle();
     CleanDataTrans();
 
@@ -1365,7 +1365,7 @@ void MKS_DLP::led_on()
 		setProBarRate(/*get_printing_rate(srcfp)*/);
 		GUI_Exec();
 		}
-#if 0	
+#if 0
 	mipi_te_cnt = 0;
 	HAL_Delay(1000);
 	if(mipi_te_cnt < 30/SLEEP_DELAY)
@@ -1374,29 +1374,29 @@ void MKS_DLP::led_on()
 			HAL_Delay(1);
 			BEEPER_OP = 1;
 			}
-#endif	
+#endif
 }
 void MKS_DLP::led_off()
 {
-	LED_BACK_LIGHT_OP = 0; 
+	LED_BACK_LIGHT_OP = 0;
 	status.led_status = false;
-	
-	bank2disp_enable(CLEAN_USED_BANK,1,1);	//Çå³ýÆÁÄ»
+
+	bank2disp_enable(CLEAN_USED_BANK,1,1);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»
 	ssd.sleep_in();
 	HAL_Delay(10);
-	bank2disp_enable(CLEAN_USED_BANK,0,0);	//¹Ø±ÕRGBÐÅºÅ
+	bank2disp_enable(CLEAN_USED_BANK,0,0);	//ï¿½Ø±ï¿½RGBï¿½Åºï¿½
 
-	
+
 	//displayInTFT_OFF = 1;
 	if(disp_state == PRINTING_UI)
 		{
-		layer_pic_clean(30,15,320,180,0x0000);	//BLACK 
+		layer_pic_clean(30,15,320,180,0x0000);	//BLACK
 		}
 }
  void MKS_DLP::power_on()
  {
 	 CPLD_RST_OP = 0;
- 
+
 	 HAL_Delay(200);
 	 LS_IOVCC_ENA_OP = 1;
 	 HAL_Delay(200);
@@ -1416,13 +1416,13 @@ void MKS_DLP::led_off()
 	 HAL_Delay(100);
  }
 
- 
+
  uint8_t MKS_DLP::bank2disp_enable_gray(uint8_t bank_used_id,uint8_t scan_en,uint8_t rd_sdram_en,uint8_t gray)
  {
 	 cmd.mark = 0;
 	 cmd.data1 = gray;
 	 //cmd.data2 =	(bank_used_id<<4 | 0xC0)&0xF0;
-	 //cmd.data2 =	(bank_used_id<<4 | 0x80)&0xF0;		 //²»ÔÊÐí¶ÁSDRAM
+	 //cmd.data2 =	(bank_used_id<<4 | 0x80)&0xF0;		 //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SDRAM
 	 cmd.data2 = ((scan_en<<7)|(rd_sdram_en<<6)|(bank_used_id<<4))&0xF0;
 	 for(uint8_t i=0;i<MAX_RETRAN_TIMES;i++)
 		 {
@@ -1431,7 +1431,7 @@ void MKS_DLP::led_off()
 		 SPIn_ReadWriteByte(cmd.data1);
 		 SPIn_ReadWriteByte(cmd.data2);
 		 CPLD_SPI_CS_OP = 1;
- 
+
 		 if(cmd.data2 == (bank2disp_read()&0xF0))
 			 return 1;
 		 }
@@ -1444,13 +1444,13 @@ void MKS_DLP::led_off()
 		{
 			 exposure_msg_display(2);
 			 ExposureData2TFT_circle();
-			 layer_pic_display(bmp_layer_buf,80,20,320,180);	 
-	 
+			 layer_pic_display(bmp_layer_buf,80,20,320,180);
+
 			 bank2disp_enable_gray(TEST_USED_BANK,1,1,i);
 			 ssd.sleep_out();
 			 LED_BACK_LIGHT_OP = 1;
 			 status.led_status = true;
-	 
+
 			 mipi_te_cnt = 0;
 			 clr_ticket();
 			 while(tick_ms < status.test_exposure_time)
@@ -1458,17 +1458,17 @@ void MKS_DLP::led_off()
 				 idle();
 				 }
 			HAL_Delay(2000);
-			 LED_BACK_LIGHT_OP = 0; 
+			 LED_BACK_LIGHT_OP = 0;
 			 status.led_status = false;
-			 bank2disp_enable(CLEAN_USED_BANK,1,1);  //Çå³ýÆÁÄ»
+			 bank2disp_enable(CLEAN_USED_BANK,1,1);  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»
 			 ssd.sleep_in();
 			 HAL_Delay(20);
-			 bank2disp_enable(CLEAN_USED_BANK,0,0);  //¹Ø±ÕRGBÐÅºÅ
-	 
+			 bank2disp_enable(CLEAN_USED_BANK,0,0);  //ï¿½Ø±ï¿½RGBï¿½Åºï¿½
+
 		 if(disp_state==EXPOSURE_UI)
 			 {
 			 layer_pic_clean(80,20,320,180,0x0000);  //BLACK
-			 exposure_msg_display(3);  
+			 exposure_msg_display(3);
 			 }
 		 HAL_Delay(2000);
 		 i = (i+1)%8;
@@ -1493,7 +1493,7 @@ void MKS_DLP::dlp_start()
 	MB_F_OP = 1;
 }
 
- 
+
 void MKS_DLP::set_LedOnTime(uint16_t value)
 {
 	head.LedOnTime = value*1000;
@@ -1505,10 +1505,10 @@ void MKS_DLP::set_LedOnTime(uint16_t value)
 		head.LedOnTime_bak=(head.LedOnTime*1.0/cbddlp_file_header.antiAliasingLevel+0.5);
 	}
 	else
-	{		
+	{
 		head.LedOnTime_bak=head.LedOnTime;
 	}
-	
+
 }
 
  void MKS_DLP::set_LedOffTime(uint16_t value)
@@ -1517,13 +1517,13 @@ void MKS_DLP::set_LedOnTime(uint16_t value)
 	epr_write_data(EPR_SAV_LEDOFFTIME, (uint8_t *)&head.LedOffTime,sizeof(head.LedOffTime));
 	head.LedOffTime = 0;
 	epr_read_data((int)EPR_SAV_LEDOFFTIME, (uint8_t*)&head.LedOffTime, sizeof(head.LedOffTime));
-	
-	
+
+
 }
 void MKS_DLP::set_Bottomlayers(uint16_t value)
 {
-	if(status.currentLayer) return;	//ÒÑ¾­´òÓ¡Íêµ×²ã£¬²»¿ÉÔÙÉèÖÃ
-		
+	if(status.currentLayer) return;	//ï¿½Ñ¾ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½×²ã£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
 	head.Bottomlayers = value;
 	epr_write_data(EPR_SAV_B_LAYER, (uint8_t *)&head.Bottomlayers,sizeof(head.Bottomlayers));
 	head.Bottomlayers = 0;
@@ -1531,7 +1531,7 @@ void MKS_DLP::set_Bottomlayers(uint16_t value)
 }
 void MKS_DLP::set_BottomLedOnTime(uint16_t value)
 {
-	head.BottomLedOnTime = value*1000;	
+	head.BottomLedOnTime = value*1000;
 	epr_write_data(EPR_SAV_B_LEDONTIME, (uint8_t *)&head.BottomLedOnTime,sizeof(head.BottomLedOnTime));
 	head.BottomLedOnTime = 0;
 	epr_read_data((int)EPR_SAV_B_LEDONTIME, (uint8_t*)&head.BottomLedOnTime, sizeof(head.BottomLedOnTime));
@@ -1544,7 +1544,7 @@ void MKS_DLP::set_BottomLedOnTime(uint16_t value)
 		head.BottomLedOnTime_bak=head.BottomLedOnTime;
 	}
 
-	
+
 
 }
 
@@ -1572,7 +1572,7 @@ void MKS_DLP::set_test_exposure_time(uint16_t value)
 }
 void MKS_DLP::set_Zoffset()
 {
-	if(axis_unhomed_error())	
+	if(axis_unhomed_error())
 		return;
 	gcode_M428();
 	gcode_M500();
@@ -1600,17 +1600,17 @@ uint16_t MKS_DLP::get_currentLayer()
 	return(Layers);
 }
 
-uint32_t MKS_DLP::get_totalPrintTime()	
+uint32_t MKS_DLP::get_totalPrintTime()
 {
 
-	uint32_t totalLedOnTime;		//ÁÁµÆÊ±¼ä
-	uint32_t totalLedOffTime;		//ÃðµÆÊ±¼ä
-	uint32_t totalMoveTime;			//ÒÆ¶¯Ê±¼ä
-	uint32_t totalWastageTime;		//ÔËËã£¬Æô¶¯µÈÏûºÄÊ±¼ä
+	uint32_t totalLedOnTime;		//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	uint32_t totalLedOffTime;		//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	uint32_t totalMoveTime;			//ï¿½Æ¶ï¿½Ê±ï¿½ï¿½
+	uint32_t totalWastageTime;		//ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	uint32_t releaseTime;
 	uint32_t remainTime;
 	uint16_t remainLayer;
-	
+
 	releaseTime = print_time.hours*3600 + print_time.minutes*60 + print_time.seconds;
 
 	remainLayer = get_totalLayers()-get_currentLayer();
@@ -1621,28 +1621,28 @@ uint32_t MKS_DLP::get_totalPrintTime()
 		totalLedOnTime = remainLayer*head.LedOnTime/1000;
 
 	totalLedOffTime = remainLayer * head.LedOffTime/1000;
-	totalMoveTime = remainLayer*(2*home_bump_mm_P[2]-head.thickness)/PRINT_FEEDRATE; 
+	totalMoveTime = remainLayer*(2*home_bump_mm_P[2]-head.thickness)/PRINT_FEEDRATE;
 	totalWastageTime = remainLayer*0.5;
 	remainTime = totalLedOnTime + totalWastageTime + ((totalLedOffTime>totalMoveTime)? totalLedOffTime:totalMoveTime);
 
 	return (releaseTime+remainTime);
 }
-uint32_t MKS_DLP::get_currentPrintTime()	
+uint32_t MKS_DLP::get_currentPrintTime()
 {
-	uint32_t curLedOnTime;		//ÁÁµÆÊ±¼ä
-	uint32_t curLedOffTime;		//ÃðµÆÊ±¼ä
-	uint32_t curMoveTime;		//ÒÆ¶¯Ê±¼ä
-	
+	uint32_t curLedOnTime;		//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	uint32_t curLedOffTime;		//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	uint32_t curMoveTime;		//ï¿½Æ¶ï¿½Ê±ï¿½ï¿½
+
 	curLedOnTime = status.curBottomlayers * head.BottomLedOnTime/1000 + status.currentLayer*head.LedOnTime/1000;
 	curLedOffTime = get_currentLayer()* head.LedOffTime/1000;
-	curMoveTime= get_currentLayer()*(2*home_bump_mm_P[2]-head.thickness)/PRINT_FEEDRATE; 
+	curMoveTime= get_currentLayer()*(2*home_bump_mm_P[2]-head.thickness)/PRINT_FEEDRATE;
 	return(curLedOnTime + ((curLedOffTime>curMoveTime)? curLedOffTime:curMoveTime));
 }
-float MKS_DLP::get_Height()	
+float MKS_DLP::get_Height()
 {
-	//·µ»Øµ±Ç°´òÓ¡µÄ¸ß¶È
-	//ÒòÃ¿´òÓ¡Ò»²ã£¬ZÖá»áÏÈÉÏÉýÒ»¶Î¾àÀë£¬ÔÙÏÂ½µµ½´òÓ¡¸ß¶È
-	//ËùÒÔZ¸ß¶È²»ÊµÊ±¶ÔÓ¦´òÓ¡¸ß¶È
+	//ï¿½ï¿½ï¿½Øµï¿½Ç°ï¿½ï¿½Ó¡ï¿½Ä¸ß¶ï¿½
+	//ï¿½ï¿½Ã¿ï¿½ï¿½Ó¡Ò»ï¿½ã£¬Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Î¾ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ß¶ï¿½
+	//ï¿½ï¿½ï¿½ï¿½Zï¿½ß¶È²ï¿½ÊµÊ±ï¿½ï¿½Ó¦ï¿½ï¿½Ó¡ï¿½ß¶ï¿½
 	return((status.curBottomlayers + status.currentLayer)*head.thickness);
 }
 
@@ -1655,13 +1655,13 @@ char MKS_DLP::get_ttfStatus_OFF()
 		}
 	else
 		return 0;
-	
+
 }
 char MKS_DLP::get_ttfStatus_ON()
 {
-	// ´òÓ¡Ò»²ãÊ±£¬½«¸Ã²ãÍ¼ÏñÊý¾ÝÌîÈë bmp_layer_buf£¬ Í¼ÏñÎªºÚ°×É«£¬0:ºÚ£¬1:°×
-	// ½« bmp_layer_buf Êý¾ÝÏÔÊ¾ÔÚTFTÉè¶¨µÄÇøÓò
-	// return 1 Ê±£¬Êý¾ÝÌîÐ´Íê³É£¬ÐèÒª¸üÐÂÏÔÊ¾ÇøÓò
+	// ï¿½ï¿½Ó¡Ò»ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ bmp_layer_bufï¿½ï¿½ Í¼ï¿½ï¿½Îªï¿½Ú°ï¿½É«ï¿½ï¿½0:ï¿½Ú£ï¿½1:ï¿½ï¿½
+	// ï¿½ï¿½ bmp_layer_buf ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½TFTï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// return 1 Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
 	if(displayInTFT_ON)
 		{
 		displayInTFT_ON = 0;
@@ -1678,7 +1678,7 @@ uint8_t MKS_DLP::get_cpld_ver()
 void MKS_DLP::buzzer_enable(uint8_t status)	//status 1:enable; 0:disable
 {
 	buzzer_ena = status;
-	
+
 	AT24CXX_Write((uint16_t)EPR_BUZZER_ENABLE, (uint8_t *)&status,1);
 
     gCfgItems.beeper_on=mksdlp.buzzer_ena;
@@ -1689,7 +1689,7 @@ void MKS_DLP::buzzer_enable(uint8_t status)	//status 1:enable; 0:disable
 void MKS_DLP::buzzer_tone(uint16_t buzzer_duration,uint16_t quiet_duration,uint8_t cycle)
 {
 	if(!buzzer_ena) return;
-	if(cycle > BUZZER_MAX_CYCLE)	cycle = BUZZER_MAX_CYCLE;	
+	if(cycle > BUZZER_MAX_CYCLE)	cycle = BUZZER_MAX_CYCLE;
 	cli();
 	for(int i=0;i<cycle;i++)
 		{
@@ -1724,17 +1724,17 @@ uint8_t MKS_DLP::get_buzzer_status()
     return buzzer_ena;
 }
 
-void MKS_DLP::printingHasFinished() 
+void MKS_DLP::printingHasFinished()
 {
 	MKS_PRINTER_STATE printer_state;
 
 	bank2disp_enable(CLEAN_USED_BANK,0,0);
-	led_off(); 
-	
+	led_off();
+
 	card.printingHasFinished();
 
 	printer_state = MKS_IDLE;
-	epr_write_data(EPR_SAV_FLAG, (uint8_t *)&printer_state,sizeof(printer_state));  
+	epr_write_data(EPR_SAV_FLAG, (uint8_t *)&printer_state,sizeof(printer_state));
 
 	moveMax_Z();
 	disable_Z();
@@ -1745,11 +1745,11 @@ void MKS_DLP::printingHasFinished()
 	gCfgItems.breakpoint_reprint_flg = 0;
 	gCfgItems.breakpoint_z_pos = 0;
 	reset_file_info();
-	
+
 	Clear_dialog();
 	draw_ready_print();
 #endif
-	
+
 
 
 }
@@ -1757,43 +1757,43 @@ void MKS_DLP::PrintStatePolling()
 {
 	if (card.sdprinting) return;
 	if(status.quickStop_status) return;
-	
+
 	if(mksReprint.mks_printer_state == MKS_PAUSING || mksReprint.mks_printer_state == MKS_STOP)
 		{
 		status.quickStop_status = true;
 
 		if(planner.blocks_queued() || stepper.cleaning_buffer_counter)
 			{
-			quickstop_stepper();                    
+			quickstop_stepper();
 			}
 		}
 }
 
 bool MKS_DLP::pausePrint()
 {
-#if 0	//µÈ´ýÆØ¹âÍê³É
+#if 0	//ï¿½È´ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(status.currentLayer == 0 && tick_ms > head.BottomLedOnTime)
 		{
-		status.exposure = false;	
-		led_off();			//¹Ø±ÕÆØ¹â
+		status.exposure = false;
+		led_off();			//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
 		}
-	
+
 	if(status.currentLayer > 0 && tick_ms > head.LedOnTime)
 		{
-		status.exposure = false;	
-		led_off();			//¹Ø±ÕÆØ¹â
+		status.exposure = false;
+		led_off();			//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
 		}
 	if(status.currentLayer  && status.led_status)
 		{
             status.pause_ledStatus = true;
 		}
-#else	//²»µÈ´ýÆØ¹âÍê³É
+#else	//ï¿½ï¿½ï¿½È´ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(status.currentLayer  && status.led_status)
 		{
             status.pause_ledStatus = true;
 		}
-	status.exposure = false;	
-	led_off();			//¹Ø±ÕÆØ¹â
+	status.exposure = false;
+	led_off();			//ï¿½Ø±ï¿½ï¿½Ø¹ï¿½
 #endif
 	return status.led_status;
 
@@ -1815,7 +1815,7 @@ void MKS_DLP::resumePrint()
 	if(status.pause_ledStatus)
 		{
 		status.pause_ledStatus = false;
-		if(status.curBottomlayers < head.Bottomlayers)	
+		if(status.curBottomlayers < head.Bottomlayers)
 			{
 			status.curBottomlayers--;
 			if(status.curBottomlayers <= 1)
@@ -1832,13 +1832,13 @@ void MKS_DLP::resumePrint()
 	epr_write_data(EPR_SAV_ISMOVING, (uint8_t *)&cstatus,1);
 
 	destination[Z_AXIS] = head.thickness*get_currentLayer();
-	do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ÒÆ¶¯ZÖá£¬
+	do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ï¿½Æ¶ï¿½Zï¿½á£¬
 	stepper.synchronize();
 
 	cstatus = DLP_STOPED;
 	epr_write_data(EPR_SAV_ISMOVING, (uint8_t *)&cstatus,1);
 
-#if defined(MKS_DLP_DEBUG)	
+#if defined(MKS_DLP_DEBUG)
 	SERIAL_PROTOCOLPGM("resume:");
 	report_current_position();
 #endif
@@ -1865,7 +1865,7 @@ void MKS_DLP::write_Information_paused()
 	if(status.pause_ledStatus)
 		{
 		status.pause_ledStatus = false;
-		if(status.curBottomlayers < head.Bottomlayers)	
+		if(status.curBottomlayers < head.Bottomlayers)
 			{
 			status.curBottomlayers--;
 			if(status.curBottomlayers <= 1)
@@ -1878,16 +1878,16 @@ void MKS_DLP::write_Information_paused()
 		}
 
 	uint16_t cLayer = get_currentLayer();
-	epr_write_data(EPR_SAV_SDPOS, (uint8_t *)&mksReprint.sdpos,sizeof(mksReprint.sdpos)); //µ±Ç°ÆØ¹â²ãµÄÆðÊ¼Î»ÖÃ
-	epr_write_data(EPR_SAV_C_LAYER, (uint8_t *)&cLayer,sizeof(cLayer)); 					//µ±Ç°ÆØ¹â²ã
+	epr_write_data(EPR_SAV_SDPOS, (uint8_t *)&mksReprint.sdpos,sizeof(mksReprint.sdpos)); //ï¿½ï¿½Ç°ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼Î»ï¿½ï¿½
+	epr_write_data(EPR_SAV_C_LAYER, (uint8_t *)&cLayer,sizeof(cLayer)); 					//ï¿½ï¿½Ç°ï¿½Ø¹ï¿½ï¿½ï¿½
 
-        
+
 	epr_write_data(EPR_SAV_CUR_Z, (uint8_t *)&mksReprint.current_position[2],sizeof(mksReprint.current_position[2]));
 	epr_write_data(EPR_SAV_HOUR, (uint8_t *)&print_time.hours,sizeof(print_time.hours));
 	epr_write_data(EPR_SAV_MINUTE, (uint8_t *)&print_time.minutes,sizeof(print_time.minutes));
 	epr_write_data(EPR_SAV_SECOND, (uint8_t *)&print_time.seconds,sizeof(print_time.seconds));
-        
-	
+
+
 }
 
 
@@ -1895,9 +1895,9 @@ void MKS_DLP::read_Information_paused()
 {
 	uint16_t cLayer;
 	uint32_t time_sec;
-	//¶ÁÈ¡ÎÄ¼þÃû
-	epr_read_data((int)EPR_SAV_FILENAME, (uint8_t*)&mksReprint.filename[0],sizeof(mksReprint.filename));  
-	//¶ÁÈ¡ÎÄ¼þÆ«ÒÆ
+	//ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½
+	epr_read_data((int)EPR_SAV_FILENAME, (uint8_t*)&mksReprint.filename[0],sizeof(mksReprint.filename));
+	//ï¿½ï¿½È¡ï¿½Ä¼ï¿½Æ«ï¿½ï¿½
 	epr_read_data((int)EPR_SAV_SDPOS, (uint8_t*)&mksReprint.sdpos, sizeof(mksReprint.sdpos));
 
 	epr_read_data((int)EPR_SAV_LEDONTIME, (uint8_t*)&head.LedOnTime, sizeof(head.LedOnTime));
@@ -1907,7 +1907,7 @@ void MKS_DLP::read_Information_paused()
 
 	head.LedOnTime_bak = head.LedOnTime;
 	head.BottomLedOnTime_bak = head.BottomLedOnTime;
-	
+
 	epr_read_data((int)EPR_SAV_C_LAYER, (uint8_t*)&cLayer, sizeof(cLayer));
 	if(cLayer <= head.Bottomlayers)
 		{
@@ -1922,25 +1922,25 @@ void MKS_DLP::read_Information_paused()
 
 	epr_read_data((int)EPR_SAV_CUR_Z, (uint8_t*)&mksReprint.current_position[2], sizeof(mksReprint.current_position[2]));
 	mks_setPositionZ();
-	
+
 	epr_read_data((int)EPR_SAV_HOUR, (uint8_t *)&print_time.hours,sizeof(print_time.hours));
 	epr_read_data((int)EPR_SAV_MINUTE, (uint8_t *)&print_time.minutes,sizeof(print_time.minutes));
 	epr_read_data((int)EPR_SAV_SECOND, (uint8_t *)&print_time.seconds,sizeof(print_time.seconds));
 
 
 #if 0
-	time_sec = get_currentPrintTime(); 
+	time_sec = get_currentPrintTime();
 	print_time.hours = time_sec/3600;
 	print_time.minutes = (time_sec%3600)/60;
 	print_time.seconds = (time_sec%3600)%60;
-#endif	
+#endif
 }
 
 void MKS_DLP::contiuePrint_paused()
 {
 		char string[20];
 		uint8_t aa_i;
-		
+
 		card.sdprinting = true;
 		if(mksdlp.print_file_type == 1)
 		{
@@ -1959,30 +1959,30 @@ void MKS_DLP::contiuePrint_paused()
 					{
 						//Ð´BANK_USED_ID0~BANK_USED_ID3
 						decode_layer_from_rle((uint32_t)status.currentLayer+aa_i*cbddlp_file_header.numberOfLayers,aa_i);
-					}			
+					}
 				}
 				else
 				{
 					decode_layer_from_rle((uint32_t)status.currentLayer,WORK_USED_BANK);
-				}			
-			}			
+				}
+			}
 		}
-		
+
 		status.exposure = false;
 		tick_ms = head.LedOffTime+1;
 
-		
-		//ÒÆ¶¯´òÓ¡Í·ZÎ»ÖÃ
+
+		//ï¿½Æ¶ï¿½ï¿½ï¿½Ó¡Í·ZÎ»ï¿½ï¿½
 		destination[Z_AXIS] = get_Height();
-		do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ÒÆ¶¯ZÖá£¬
+		do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ï¿½Æ¶ï¿½Zï¿½á£¬
 		stepper.synchronize();
 		report_current_position();
 
-		
-		mksReprint.mks_printer_state = MKS_WORKING;
-		gcode_M24(); 
 
-	
+		mksReprint.mks_printer_state = MKS_WORKING;
+		gcode_M24();
+
+
 }
 bool MKS_DLP::Is_Paused_Finished()
 {
@@ -1992,13 +1992,13 @@ bool MKS_DLP::Is_Paused_Finished()
 
 	if(cstatus == DLP_MOVING)	return false;
 	if(cstatus == DLP_STOPED)	return true;
-		
+
 	return false;
 }
 void MKS_DLP::clean_Information_layer()
 {
 	uint32_t csdpos = 0;
-	uint16_t clayer = 0;	
+	uint16_t clayer = 0;
 	uint8_t	 cstatus = 0;
 	uint32_t cseconds = 0;
 	uint16_t caddr;
@@ -2010,8 +2010,8 @@ void MKS_DLP::clean_Information_layer()
 		epr_write_data((int)(caddr+6), (uint8_t*)&cstatus, 1);
 		epr_write_data((int)(caddr+7), (uint8_t*)&cstatus, 4);
 		}
-	
-	for(int i=0;i<POWEROFF_RESUME_BUF_LEN;i++)	
+
+	for(int i=0;i<POWEROFF_RESUME_BUF_LEN;i++)
 		{
 		poweroff_resume.sdpos[i] = 0;
 		poweroff_resume.layer[i] = 0;
@@ -2026,14 +2026,14 @@ void MKS_DLP::write_Information_layer(DLP_MOVE_STATUS status)
 	uint32_t cseconds;
 	uint16_t cLayer = get_currentLayer();
 	poweroff_resume.addr = POWEROFF_RESUME_ADDR + (cLayer%POWEROFF_RESUME_BUF_LEN)*POWEROFF_RESUME_BLOCK;
-	
+
 	if(status == DLP_STOPED)
 		{
 		epr_write_data(poweroff_resume.addr, (uint8_t *)&mksReprint.sdpos,sizeof(mksReprint.sdpos)); //
 		cseconds = print_time.hours*3600 + print_time.minutes*60 + print_time.seconds;
-		epr_write_data(poweroff_resume.addr+7,(uint8_t *)&cseconds ,4); //Ê±¼ä
+		epr_write_data(poweroff_resume.addr+7,(uint8_t *)&cseconds ,4); //Ê±ï¿½ï¿½
 		}
-	epr_write_data(poweroff_resume.addr+4, (uint8_t *)&cLayer,sizeof(cLayer)); 	
+	epr_write_data(poweroff_resume.addr+4, (uint8_t *)&cLayer,sizeof(cLayer));
 	epr_write_data(poweroff_resume.addr+6, (uint8_t *)&status,1);
 
 
@@ -2041,7 +2041,7 @@ void MKS_DLP::write_Information_layer(DLP_MOVE_STATUS status)
 	poweroff_resume.layer[cLayer%POWEROFF_RESUME_BUF_LEN] = cLayer;
 	poweroff_resume.status[cLayer%POWEROFF_RESUME_BUF_LEN] = status;
 	poweroff_resume.seconds[cLayer%POWEROFF_RESUME_BUF_LEN] = cseconds;
-	
+
 }
 
 uint16_t MKS_DLP::Can_Resume_Print()
@@ -2057,27 +2057,27 @@ uint16_t MKS_DLP::Can_Resume_Print()
 		epr_read_data((int)(caddr+4), (uint8_t*)&poweroff_resume.layer[i], 2);
 		epr_read_data((int)(caddr+6), (uint8_t*)&poweroff_resume.status[i], 1);
 		epr_read_data((int)(caddr+7), (uint8_t*)&poweroff_resume.seconds[i], 4);
-		
+
 		if(poweroff_resume.layer[i] > max_layer)
 			{
 			max_layer = poweroff_resume.layer[i];
 			max_i = i;
 			}
 		}
-	
+
 	if(poweroff_resume.status[max_i] == DLP_STOPED)
 		{
-		mksReprint.sdpos = poweroff_resume.sdpos[max_i];	//¶ÁÈ¡ÎÄ¼þÆ«ÒÆ
-		//»Ö¸´´òÓ¡Ê±¼ä
+		mksReprint.sdpos = poweroff_resume.sdpos[max_i];	//ï¿½ï¿½È¡ï¿½Ä¼ï¿½Æ«ï¿½ï¿½
+		//ï¿½Ö¸ï¿½ï¿½ï¿½Ó¡Ê±ï¿½ï¿½
 		print_time.hours = poweroff_resume.seconds[max_i]/3600;
 		print_time.minutes = (poweroff_resume.seconds[max_i]%3600)/60;
 		print_time.seconds = (poweroff_resume.seconds[max_i]%3600)%60;
-		
+
 		return (max_layer + 1);
 		}
 	else
 		return 0;
-	
+
 }
 
 bool MKS_DLP::read_Information_layer()
@@ -2088,9 +2088,9 @@ bool MKS_DLP::read_Information_layer()
 		cLayer = Can_Resume_Print();
 		if(!cLayer)
 			return false;
-		//¶ÁÈ¡ÎÄ¼þÃû
-		epr_read_data((int)EPR_SAV_FILENAME, (uint8_t*)&mksReprint.filename[0],sizeof(mksReprint.filename));  
-	
+		//ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½
+		epr_read_data((int)EPR_SAV_FILENAME, (uint8_t*)&mksReprint.filename[0],sizeof(mksReprint.filename));
+
 		epr_read_data((int)EPR_SAV_LEDONTIME, (uint8_t*)&head.LedOnTime, sizeof(head.LedOnTime));
 		epr_read_data((int)EPR_SAV_LEDOFFTIME, (uint8_t*)&head.LedOffTime, sizeof(head.LedOffTime));
 		epr_read_data((int)EPR_SAV_B_LAYER, (uint8_t*)&head.Bottomlayers, sizeof(head.Bottomlayers));
@@ -2110,18 +2110,18 @@ bool MKS_DLP::read_Information_layer()
 			status.currentLayer = cLayer - head.Bottomlayers;
 			if(status.currentLayer>0)
 					status.currentLayer--;
-			
+
 			}
-	
-	//»Ö¸´´òÓ¡Ê±¼ä
-#if 0	
-		time_sec = get_currentPrintTime(); 
+
+	//ï¿½Ö¸ï¿½ï¿½ï¿½Ó¡Ê±ï¿½ï¿½
+#if 0
+		time_sec = get_currentPrintTime();
 		print_time.hours = time_sec/3600;
 		print_time.minutes = (time_sec%3600)/60;
 		print_time.seconds = (time_sec%3600)%60;
 #endif
-		
-		
+
+
 		return true;
 }
 
@@ -2129,7 +2129,7 @@ void MKS_DLP::contiuePrint_Pwdwn()
 {
 	char string[20];
 	uint8_t aa_i;
-	
+
 	card.sdprinting = true;
 	if(mksdlp.print_file_type == 1)
 	{
@@ -2148,38 +2148,38 @@ void MKS_DLP::contiuePrint_Pwdwn()
 				{
 					//Ð´BANK_USED_ID0~BANK_USED_ID3
 					decode_layer_from_rle((uint32_t)status.currentLayer+aa_i*cbddlp_file_header.numberOfLayers,aa_i);
-				}			
+				}
 			}
 			else
 			{
 				decode_layer_from_rle((uint32_t)status.currentLayer,WORK_USED_BANK);
-			}			
+			}
 		}
 	}
 	status.exposure = false;
 	tick_ms = head.LedOffTime+1;
 
-        
+
 	mksReprint.current_position[2] = get_Height();
 	mks_setPositionZ();
-	
-	//ÒÆ¶¯´òÓ¡Í·ZÎ»ÖÃ
+
+	//ï¿½Æ¶ï¿½ï¿½ï¿½Ó¡Í·ZÎ»ï¿½ï¿½
 	destination[Z_AXIS] = current_position[Z_AXIS]+home_bump_mm_P[2];
-	do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ÒÆ¶¯ZÖá£¬
+	do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ï¿½Æ¶ï¿½Zï¿½á£¬
 	stepper.synchronize();
-#if defined(MKS_DLP_DEBUG)	
+#if defined(MKS_DLP_DEBUG)
 	report_current_position();
 #endif
 	destination[Z_AXIS] = current_position[Z_AXIS]-home_bump_mm_P[2];
-	do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ÒÆ¶¯ZÖá£¬
+	do_blocking_move_to_z(destination[Z_AXIS],PRINT_FEEDRATE);	//ï¿½Æ¶ï¿½Zï¿½á£¬
 	stepper.synchronize();
-#if defined(MKS_DLP_DEBUG)	
+#if defined(MKS_DLP_DEBUG)
 	report_current_position();
-#endif	
-	
+#endif
+
 	mksReprint.mks_printer_state = MKS_WORKING;
-	gcode_M24(); 
-	
+	gcode_M24();
+
 }
 
 void MKS_DLP::quick_stop()
@@ -2192,7 +2192,7 @@ void MKS_DLP::quick_stop()
 void MKS_DLP::TFT_display_test()
 {
 	memset(bmp_layer_buf,0x55,sizeof(bmp_layer_buf));
-	layer_pic_display(bmp_layer_buf,80,20,320,180); 
+	layer_pic_display(bmp_layer_buf,80,20,320,180);
 	exposure_msg_display(2);
 	while(1)
 			{
@@ -2200,8 +2200,8 @@ void MKS_DLP::TFT_display_test()
 			}
 	mksdlp.set_test_exposure_time(key_set_value);
 	mksdlp.ExposureTest();
-	exposure_msg_display(3);  
-	
+	exposure_msg_display(3);
+
 }
 
 
@@ -2209,8 +2209,8 @@ void MKS_DLP::TFT_display_test()
 
 void MKS_DLP::draw_return_printing_ui()
 {
-	display_print_statue(); 					 
-	setProBarRate(/*get_printing_rate(srcfp)*/); 
+	display_print_statue();
+	setProBarRate(/*get_printing_rate(srcfp)*/);
 	GUI_Exec();
 	if(mksdlp.status.led_status)
 		{
@@ -2224,10 +2224,10 @@ void MKS_DLP::draw_printing()
 			getHead1();
 		else
 			get_cbddlp_file_header();
-		
+
 		draw_status_clear();
-		display_print_statue(); 					 
-		setProBarRate(/*get_printing_rate(srcfp)*/); 
+		display_print_statue();
+		setProBarRate(/*get_printing_rate(srcfp)*/);
 		GUI_Exec();
 		card.setIndex(0);
 }
@@ -2246,7 +2246,7 @@ typedef union{
 typedef union{
 	BYTE sd_char[4];
 	uint32_t val_i;
-}hex_to_int; 
+}hex_to_int;
 
 void MKS_DLP::get_cbddlp_file_header()
 {
@@ -2258,36 +2258,36 @@ void MKS_DLP::get_cbddlp_file_header()
 
 		rc = card.gets(sd_char,4);	//magic
 		memcpy(cbddlp_file_header.magic,sd_char,4);
-		
+
 		rc = card.gets(temp_int.sd_char,4);	//version
 		cbddlp_file_header.version=temp_int.val_i;
-		
+
 		//build sizes
 		rc = card.gets(temp_float.sd_char,4);	//bedXmm
 		cbddlp_file_header.bedXmm=temp_float.val_f;
 		rc = card.gets(temp_float.sd_char,4);	//bedYmm
-		cbddlp_file_header.bedYmm=temp_float.val_f;	
+		cbddlp_file_header.bedYmm=temp_float.val_f;
 		rc = card.gets(temp_float.sd_char,4);	//bedZmm
-		cbddlp_file_header.bedZmm=temp_float.val_f;	
+		cbddlp_file_header.bedZmm=temp_float.val_f;
 		//UnKnow
 		rc = card.gets(sd_char,4);	//
 		memcpy(cbddlp_file_header.unknown1,sd_char,4);
 		rc = card.gets(sd_char,4);	//
-		memcpy(cbddlp_file_header.unknown2,sd_char,4);	
+		memcpy(cbddlp_file_header.unknown2,sd_char,4);
 		rc = card.gets(sd_char,4);	//
-		memcpy(cbddlp_file_header.unknown3,sd_char,4);	
+		memcpy(cbddlp_file_header.unknown3,sd_char,4);
 
 		rc = card.gets(temp_float.sd_char,4);	//layerHeighe
-		cbddlp_file_header.layerHeightMilimeter=temp_float.val_f; 
+		cbddlp_file_header.layerHeightMilimeter=temp_float.val_f;
 
 		rc = card.gets(temp_float.sd_char,4);	//exposureTime
-		cbddlp_file_header.exposureTimeSeconds=temp_float.val_f; 
+		cbddlp_file_header.exposureTimeSeconds=temp_float.val_f;
 
 		rc = card.gets(temp_float.sd_char,4);	//exposureBottomTime
-		cbddlp_file_header.exposureBottomTimeSeconds=temp_float.val_f; 
+		cbddlp_file_header.exposureBottomTimeSeconds=temp_float.val_f;
 
 		rc = card.gets(temp_float.sd_char,4);	//offTime
-		cbddlp_file_header.offTimeSeconds=temp_float.val_f; 	
+		cbddlp_file_header.offTimeSeconds=temp_float.val_f;
 
 		rc = card.gets(temp_int.sd_char,4);	//bottomLayers
 		cbddlp_file_header.bottomLayers=temp_int.val_i;
@@ -2297,7 +2297,7 @@ void MKS_DLP::get_cbddlp_file_header()
 
 		rc = card.gets(temp_int.sd_char,4);	//resolutionY
 		cbddlp_file_header.resolutionY=temp_int.val_i;
-	
+
 		rc = card.gets(temp_int.sd_char,4);	//previewOneOffsetAddress
 		cbddlp_file_header.previewOneOffsetAddress=temp_int.val_i;
 
@@ -2315,7 +2315,7 @@ void MKS_DLP::get_cbddlp_file_header()
 			rc = card.gets(temp_int.sd_char,4);	//printTime---s
 			cbddlp_file_header.printTime=temp_int.val_i;
 		}
-		
+
 		rc = card.gets(temp_int.sd_char,4);	//projectType
 		cbddlp_file_header.projectType=temp_int.val_i;
 		if(cbddlp_file_header.version > 1)
@@ -2339,9 +2339,9 @@ void MKS_DLP::get_cbddlp_file_header()
 		rc = card.gets(sd_char,4);	//
 		memcpy(cbddlp_file_header.padding1,sd_char,4);
 		rc = card.gets(sd_char,4);	//
-		memcpy(cbddlp_file_header.padding2,sd_char,4);	
+		memcpy(cbddlp_file_header.padding2,sd_char,4);
 		rc = card.gets(sd_char,4);	//
-		memcpy(cbddlp_file_header.padding3,sd_char,4);		
+		memcpy(cbddlp_file_header.padding3,sd_char,4);
 
 
 		//change to mks
@@ -2351,10 +2351,10 @@ void MKS_DLP::get_cbddlp_file_header()
 		head.LedOnTime=cbddlp_file_header.exposureTimeSeconds*1000;
 		head.LedOffTime=cbddlp_file_header.offTimeSeconds*1000;
 		head.BottomLedOnTime=cbddlp_file_header.exposureBottomTimeSeconds*1000;
-		
-		if(cbddlp_file_header.antiAliasingLevel>4)//Ä¿Ç°cbddlp¸ñÊ½ÔÚmksÖÐÖ»ÄÜ×öµ½4¼¶»Ò¶È
+
+		if(cbddlp_file_header.antiAliasingLevel>4)//Ä¿Ç°cbddlpï¿½ï¿½Ê½ï¿½ï¿½mksï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½ï¿½Ò¶ï¿½
 			cbddlp_file_header.antiAliasingLevel=4;
-		
+
 		if(cbddlp_file_header.antiAliasingLevel>1)
 		{
 			head.LedOnTime_bak=(uint32_t)(cbddlp_file_header.exposureTimeSeconds*1000.0/cbddlp_file_header.antiAliasingLevel+0.5);
@@ -2372,12 +2372,12 @@ void MKS_DLP::get_cbddlp_preview1_info()
 {
 	BYTE sd_char[4];
 	uint8_t rc;
-	long index=0;	
+	long index=0;
 	hex_to_int temp_int;
-	
+
 	index = cbddlp_file_header.previewOneOffsetAddress;
 	card.setIndex(index);
-	
+
 	rc = card.gets(temp_int.sd_char,4);	//resolution_X
 	preview_pic1.resolution_X = temp_int.val_i;
 
@@ -2385,15 +2385,15 @@ void MKS_DLP::get_cbddlp_preview1_info()
 	preview_pic1.resolution_Y = temp_int.val_i;
 
 	rc = card.gets(temp_int.sd_char,4);	//ofs_image
-	preview_pic1.ofs_image = temp_int.val_i;	
+	preview_pic1.ofs_image = temp_int.val_i;
 
 	rc = card.gets(temp_int.sd_char,4);	//len_image_data
-	preview_pic1.len_image_data = temp_int.val_i; 
+	preview_pic1.len_image_data = temp_int.val_i;
 
 	//padding
-	//rc = card.gets(sd_char,4);	
-	//rc = card.gets(sd_char,4);		
-	//rc = card.gets(sd_char,4);	
+	//rc = card.gets(sd_char,4);
+	//rc = card.gets(sd_char,4);
+	//rc = card.gets(sd_char,4);
 	//rc = card.gets(sd_char,4);
 }
 
@@ -2401,12 +2401,12 @@ void MKS_DLP::get_cbddlp_preview2_info()
 {
 	BYTE sd_char[4];
 	uint8_t rc;
-	long index=0;	
+	long index=0;
 	hex_to_int temp_int;
-	
+
 	index = cbddlp_file_header.previewTwoOffsetAddress;
 	card.setIndex(index);
-	
+
 	rc = card.gets(temp_int.sd_char,4);	//resolution_X
 	preview_pic2.resolution_X = temp_int.val_i;
 
@@ -2414,15 +2414,15 @@ void MKS_DLP::get_cbddlp_preview2_info()
 	preview_pic2.resolution_Y = temp_int.val_i;
 
 	rc = card.gets(temp_int.sd_char,4);	//ofs_image
-	preview_pic2.ofs_image = temp_int.val_i;	
+	preview_pic2.ofs_image = temp_int.val_i;
 
 	rc = card.gets(temp_int.sd_char,4);	//len_image_data
-	preview_pic2.len_image_data = temp_int.val_i; 
+	preview_pic2.len_image_data = temp_int.val_i;
 
 	//padding
-	//rc = card.gets(sd_char,4);	
-	//rc = card.gets(sd_char,4);		
-	//rc = card.gets(sd_char,4);	
+	//rc = card.gets(sd_char,4);
+	//rc = card.gets(sd_char,4);
+	//rc = card.gets(sd_char,4);
 	//rc = card.gets(sd_char,4);
 
 }
@@ -2440,19 +2440,19 @@ extern void LCD_WriteRAM(u16 RGB_Code);
 #define PIX_1_SCREEN_POS_Y	15
 void get_pic_display(uint8_t sel)
 {
-	int imageData[500];//µ¥ÐÐÊý¾Ý
-	int imageData_bak[500];//µ¥ÐÐÊý¾Ý
+	int imageData[500];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int imageData_bak[500];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	BYTE sd_char[4];
 	uint8_t rc;
-	long index=0;	
+	long index=0;
 	hex_to_int temp_int;
-	
+
 	long i;
 	int dot,color;
 	int repeat;
 	int d = 0;
 	int y=0,y1=0,y2=0;
-	int x_off=0;	
+	int x_off=0;
 	int32_t resolutionX,resolutionY,ofs_image,imge_data_len;
 
 	volatile float ii,jj,k1,k2;
@@ -2460,15 +2460,15 @@ void get_pic_display(uint8_t sel)
 	int w,h;
 
 	uint32_t pcnt=0;
-	
+
 	if(sel==1)
 	{
 		m=PIC_1_X;
 		n=PIC_1_Y;
 		w=preview_pic1.resolution_X;
 		h=preview_pic1.resolution_Y;
-		ii=(float)w/(float)m;//²ÉÑùÐÐ¼ä¾à
-		jj=(float)h/(float)n;//²ÉÑùÁÐ¼ä¾à		
+		ii=(float)w/(float)m;//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
+		jj=(float)h/(float)n;//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
 
 		resolutionX = preview_pic1.resolution_X;
 		resolutionY = preview_pic1.resolution_Y;
@@ -2479,13 +2479,13 @@ void get_pic_display(uint8_t sel)
 		{
 			w=preview_pic2.resolution_X;
 			h=preview_pic2.resolution_Y;
-			ii=(float)w/(float)m;//²ÉÑùÐÐ¼ä¾à
-			jj=(float)h/(float)n;//²ÉÑùÁÐ¼ä¾à		
-		
+			ii=(float)w/(float)m;//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
+			jj=(float)h/(float)n;//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
+
 			resolutionX = preview_pic2.resolution_X;
 			resolutionY = preview_pic2.resolution_Y;
 			ofs_image = preview_pic2.ofs_image;
-			imge_data_len = preview_pic2.len_image_data;			
+			imge_data_len = preview_pic2.len_image_data;
 		}
 		if(resolutionX>=500)resolutionX=500;
 
@@ -2494,24 +2494,24 @@ void get_pic_display(uint8_t sel)
 	{
 		pcnt=0;
 		memset(bmp_public_buf,0,sizeof(bmp_public_buf));
-		
+
 		m=PIC_2_X;
 		n=PIC_2_Y;
 		w=preview_pic2.resolution_X;
-		h=preview_pic2.resolution_Y;	
-		ii=(float)w/(float)m;//²ÉÑùÐÐ¼ä¾à
-		jj=(float)h/(float)n;//²ÉÑùÁÐ¼ä¾à
+		h=preview_pic2.resolution_Y;
+		ii=(float)w/(float)m;//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
+		jj=(float)h/(float)n;//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
 
 		resolutionX = preview_pic2.resolution_X;
 		resolutionY = preview_pic2.resolution_Y;
 		ofs_image = preview_pic2.ofs_image;
-		imge_data_len = preview_pic2.len_image_data;	
+		imge_data_len = preview_pic2.len_image_data;
 
 		if(resolutionX>=500)resolutionX=500;
 	}
 
 	index = ofs_image;
-	card.setIndex(index);	
+	card.setIndex(index);
 
 	for(i=0;i<imge_data_len;i++)
 	{
@@ -2519,7 +2519,7 @@ void get_pic_display(uint8_t sel)
 		dot = (sd_char[0]&0xff)|(sd_char[1]<<8);
 		i=i+1;
 		color = dot;
-		
+
 		repeat = 1;
         if ((dot & 0x0020) == 0x0020)
 		{
@@ -2528,14 +2528,14 @@ void get_pic_display(uint8_t sel)
 		   i=i+2;
         }
 
-         while (repeat > 0) 
-		 {	
-		 
+         while (repeat > 0)
+		 {
+
 				imageData[d++] = color;
 				if(d==resolutionX)
 				{
 					d=0;
-					
+
 					if(y1==y)
 					{
 						do
@@ -2547,13 +2547,13 @@ void get_pic_display(uint8_t sel)
 									imageData_bak[t]=imageData[(int)(ii*t)];
 								}
 								LCD_setWindowArea(PIX_1_SCREEN_POS_X,PIX_1_SCREEN_POS_Y+y2,m,1);
-								LCD_WriteRAM_Prepare(); 
+								LCD_WriteRAM_Prepare();
 								for(x_off=0;x_off<m;x_off++)
 								{
 									LCD_WriteRAM(imageData_bak[x_off]);
 								}
 								y2++;
-								y1=(int)(jj*(float)(y2));//ÏÂ´ÎÒª¶ÁÈ¡µÄÐÐºÅ
+								y1=(int)(jj*(float)(y2));//ï¿½Â´ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½Ðºï¿½
 							}
 							else
 							{
@@ -2562,17 +2562,17 @@ void get_pic_display(uint8_t sel)
 									imageData_bak[t]=imageData[(int)(ii*t)];
 									bmp_public_buf[pcnt++]=(imageData_bak[t]&0x000000ff)>>0;
 									bmp_public_buf[pcnt++]=(imageData_bak[t]&0x0000ff00)>>8;
-								}							
+								}
 								y2++;
-								y1=(int)(jj*(float)(y2));//ÏÂ´ÎÒª¶ÁÈ¡µÄÐÐºÅ
+								y1=(int)(jj*(float)(y2));//ï¿½Â´ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½Ðºï¿½
 							}
 						}while(y1==y);
 					}
-					y++;					
+					y++;
 				}
-	            repeat--;				
-         }		
-	}		
+	            repeat--;
+         }
+	}
 	card.close_CBD_File();
 }
 
@@ -2583,7 +2583,7 @@ void get_pic_info(char *path)
 		mksdlp.get_cbddlp_file_header();
 		mksdlp.get_cbddlp_preview1_info();
 		mksdlp.get_cbddlp_preview2_info();
-	}	
+	}
 }
 void MKS_DLP::get_cbddlp_print_para_info()
 {
@@ -2591,13 +2591,13 @@ void MKS_DLP::get_cbddlp_print_para_info()
 	hex_to_float temp_float;
 	hex_to_int temp_int;
 	uint8_t rc;
-	long index=0;	
-	
+	long index=0;
+
 	index = cbddlp_file_header.printParametersOffsetAddress;
-	card.setIndex(index);	
+	card.setIndex(index);
 
 	rc = card.gets(temp_float.sd_char,4);	//bottomLiftDistance
-	print_para.bottomLiftDistance=temp_float.val_f; 
+	print_para.bottomLiftDistance=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//bottomLiftSpeed
 	print_para.bottomLiftSpeed=temp_float.val_f;
@@ -2606,40 +2606,40 @@ void MKS_DLP::get_cbddlp_print_para_info()
 	print_para.liftingDistance=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//liftingSpeed
-	print_para.liftingSpeed=temp_float.val_f;	
+	print_para.liftingSpeed=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//retractSpeed
-	print_para.retractSpeed=temp_float.val_f;	
+	print_para.retractSpeed=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//retractSpeed
-	print_para.VolumeMl=temp_float.val_f;	
+	print_para.VolumeMl=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//WeightG
 	print_para.WeightG=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//CostDollars
-	print_para.CostDollars=temp_float.val_f;	
+	print_para.CostDollars=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//BottomLightOffDelay
 	print_para.BottomLightOffDelay=temp_float.val_f;
 
 	rc = card.gets(temp_float.sd_char,4);	//lightOffDelay
-	print_para.lightOffDelay=temp_float.val_f;	
+	print_para.lightOffDelay=temp_float.val_f;
 
-	rc = card.gets(temp_int.sd_char,4);	//bottomLayerCount	
-	print_para.bottomLayerCount = temp_int.val_i; 
+	rc = card.gets(temp_int.sd_char,4);	//bottomLayerCount
+	print_para.bottomLayerCount = temp_int.val_i;
 
 	rc = card.gets(temp_float.sd_char,4);	//p1
-	print_para.P1=temp_float.val_f;	
+	print_para.P1=temp_float.val_f;
 	rc = card.gets(temp_float.sd_char,4);	//p2
-	print_para.P2=temp_float.val_f;	
+	print_para.P2=temp_float.val_f;
 	rc = card.gets(temp_float.sd_char,4);	//p3
-	print_para.P3=temp_float.val_f;	
+	print_para.P3=temp_float.val_f;
 	rc = card.gets(temp_float.sd_char,4);	//p4
-	print_para.P4=temp_float.val_f;	
-	
+	print_para.P4=temp_float.val_f;
+
 }
-//layer ´ÓµÚ0²ã¿ªÊ¼£»
+//layer ï¿½Óµï¿½0ï¿½ã¿ªÊ¼ï¿½ï¿½
 //layer begin zero
 void MKS_DLP::get_cbddlp_cur_layer_def(uint32_t layer)
 {
@@ -2647,41 +2647,41 @@ void MKS_DLP::get_cbddlp_cur_layer_def(uint32_t layer)
 	hex_to_float temp_float;
 	hex_to_int temp_int;
 	uint8_t rc;
-	long index=0;	
-	
+	long index=0;
+
 	index = cbddlp_file_header.layersDefinitionOffsetAddress + layer*sizeof(layer_def);
 	card.setIndex(index);
 
-	rc = card.gets(temp_float.sd_char,4);	//layerPositionZ	
-	layer_def.layerPositionZ=temp_float.val_f;	
+	rc = card.gets(temp_float.sd_char,4);	//layerPositionZ
+	layer_def.layerPositionZ=temp_float.val_f;
 
-	rc = card.gets(temp_float.sd_char,4);	//layerExposure	
-	layer_def.layerExposure=temp_float.val_f;	
+	rc = card.gets(temp_float.sd_char,4);	//layerExposure
+	layer_def.layerExposure=temp_float.val_f;
 
-	rc = card.gets(temp_float.sd_char,4);	//layerExposure	
-	layer_def.layerOffTimeSeconds=temp_float.val_f;	
+	rc = card.gets(temp_float.sd_char,4);	//layerExposure
+	layer_def.layerOffTimeSeconds=temp_float.val_f;
 
-	rc = card.gets(temp_int.sd_char,4);	//dataAddress	
-	layer_def.dataAddress= temp_int.val_i; 
+	rc = card.gets(temp_int.sd_char,4);	//dataAddress
+	layer_def.dataAddress= temp_int.val_i;
 
-	rc = card.gets(temp_int.sd_char,4);	//dataSize	
-	layer_def.dataSize = temp_int.val_i; 	
+	rc = card.gets(temp_int.sd_char,4);	//dataSize
+	layer_def.dataSize = temp_int.val_i;
 
 	//UnKnow
 	rc = card.gets(sd_char,4);	//
 	memcpy(layer_def.unknown1,sd_char,4);
 	rc = card.gets(sd_char,4);	//
-	memcpy(layer_def.unknown2,sd_char,4);	
+	memcpy(layer_def.unknown2,sd_char,4);
 	rc = card.gets(sd_char,4);	//
-	memcpy(layer_def.unknown3,sd_char,4);	
+	memcpy(layer_def.unknown3,sd_char,4);
 	rc = card.gets(sd_char,4);	//
-	memcpy(layer_def.unknown4,sd_char,4);	
-	
+	memcpy(layer_def.unknown4,sd_char,4);
+
 }
 
 void MKS_DLP::startFileprint_cbd()
 {
-    mksdlp.ssd.init();//ÖØÐÂ³õÊ¼»¯2kÆÁ£¬±ÜÃâ³¤Ê±¼ä´ý»úÖ®ºó£¬2kÆÁÎÞ·¨Õý³£´òÓ¡¡£
+    mksdlp.ssd.init();//ï¿½ï¿½ï¿½Â³ï¿½Ê¼ï¿½ï¿½2kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â³¤Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½2kï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½
 	get_cbddlp_file_header();
 	get_cbddlp_preview1_info();
 	get_cbddlp_preview2_info();
@@ -2692,7 +2692,7 @@ void MKS_DLP::startFileprint_cbd()
 	draw_status_clear();
 	display_print_statue();
 	GUI_Exec();
-	mks_G28("G28 Z0");	
+	mks_G28("G28 Z0");
 }
 
 void MKS_DLP::decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank)
@@ -2701,18 +2701,18 @@ void MKS_DLP::decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank)
 
 	BYTE sd_char;
 	uint8_t rc;
-	long index=0;	
+	long index=0;
 
 	uint8_t color;
 	uint16_t length,length_sum;
 	uint16_t curpoint;
 	uint8_t *p;
 	uint8_t remaining;
-	
+
 
 	get_cbddlp_cur_layer_def(cur_layer);
-	
-	
+
+
 	index = layer_def.dataAddress;
 	card.setIndex(index);
 
@@ -2729,7 +2729,7 @@ void MKS_DLP::decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank)
 		rc = card.gets(&sd_char,1);
 		color = (sd_char&0x80)>>7;
 		length = sd_char&0x7f;
-		
+
 		for(j=0;j<length;j++)
 		{
 			if(curpoint<Y_RATIO/2)
@@ -2742,7 +2742,7 @@ void MKS_DLP::decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank)
 			}
 			p++;
 			curpoint++;
-			
+
 			if(curpoint>cbddlp_file_header.resolutionX)
 			{
 				mksdlp.line_gen_data(mksdlp.bmp.current_line,work_bank);
@@ -2752,7 +2752,7 @@ void MKS_DLP::decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank)
 				curpoint=0;
 				memset(Line_Pixel,0,sizeof(Line_Pixel));
 				p = &Line_Pixel[0];
-				remaining = length-j;//½áÎ²¶àÓàÑÕÉ«£¬·Åµ½ÏÂÒ»ÐÐ¡£
+				remaining = length-j;//ï¿½ï¿½Î²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Ò»ï¿½Ð¡ï¿½
 				for(k=0;k<remaining;k++)
 				{
 					*p=color;
@@ -2761,9 +2761,8 @@ void MKS_DLP::decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank)
 				}
 				break;
 			}
-		}	
+		}
 	}
 }
 
 //====================================================//
-

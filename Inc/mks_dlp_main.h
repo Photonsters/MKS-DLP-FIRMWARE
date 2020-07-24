@@ -13,28 +13,28 @@
 
 #define MKS_DLP_DEBUG
 
-//#define PRINT_FEEDRATE	1.3 
+//#define PRINT_FEEDRATE	1.3
 #define PRINT_FEEDRATE (HOMING_FEEDRATE_Z/2/60)
 
 #define  X_RATIO 2560
 #define  Y_RATIO 1440
 #define  FILLCODE 48
-#define  DATA_LEN		192 	// (Y_RATIO+2*FILLCODE)/8				//tan ---Ò»ÐÐÊý¾Ý³¤¶È£¬ÓÐ(720+48+720+48)Î»
+#define  DATA_LEN		192 	// (Y_RATIO+2*FILLCODE)/8				//tan ---Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½È£ï¿½ï¿½ï¿½(720+48+720+48)Î»
 #define  DATA_CRC_LEN	194 	// mark16 + DATA_LEN
 #define  TXDATA_LEN		196		//mark16 + DATA_LEN + CRC16
 
-#define BANK_USED_ID0 0	//CPLD_SDRAM µÄBANK ÐòºÅ0~3
-#define BANK_USED_ID1 1	//CPLD_SDRAM µÄBANK ÐòºÅ0~3
-#define BANK_USED_ID2 2	//CPLD_SDRAM µÄBANK ÐòºÅ0~3
-#define BANK_USED_ID3 3	//CPLD_SDRAM µÄBANK ÐòºÅ0~3
+#define BANK_USED_ID0 0	//CPLD_SDRAM ï¿½ï¿½BANK ï¿½ï¿½ï¿½ï¿½0~3
+#define BANK_USED_ID1 1	//CPLD_SDRAM ï¿½ï¿½BANK ï¿½ï¿½ï¿½ï¿½0~3
+#define BANK_USED_ID2 2	//CPLD_SDRAM ï¿½ï¿½BANK ï¿½ï¿½ï¿½ï¿½0~3
+#define BANK_USED_ID3 3	//CPLD_SDRAM ï¿½ï¿½BANK ï¿½ï¿½ï¿½ï¿½0~3
 
 #define WORK_USED_BANK	BANK_USED_ID0
 #define TEST_USED_BANK	BANK_USED_ID1
 #define CLEAN_USED_BANK	BANK_USED_ID2
 
 
-#define THICKNESS_RATION	1			//²ãºñ ·Å´ó±¶Êý£¬Õý³£Îª1
-#define MAX_RETRAN_TIMES	5			//×î´óÖØ´«´ÎÊý
+#define THICKNESS_RATION	1			//ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª1
+#define MAX_RETRAN_TIMES	5			//ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½
 
 #define BUZZER_MAX_CYCLE	5
 
@@ -43,56 +43,56 @@
 #define POWEROFF_RESUME_BUF_LEN	20
 #define POWEROFF_RESUME_BLOCK	11
 
-/*-------------TFT ÏÔÊ¾ÇøÓò--------------*/
-#define REDUCE_RATION	8
-#define X_RATIO_TFT	X_RATIO/REDUCE_RATION	//320
-#define Y_RATIO_TFT	Y_RATIO/REDUCE_RATION	//180
+/*-------------TFT ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½--------------*/
+#define REDUCE_RATIO	8
+#define X_RATIO_TFT	320
+#define Y_RATIO_TFT	180
 #define DATA_LEN_TFT 23
-/*-------------TFT ÏÔÊ¾ÇøÓò--------------*/
+/*-------------TFT ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½--------------*/
 
 
 struct DLP_HEAD
 {
-	/*----------------Í¼ÏñÖ¡Í·²¿±êÊ¶----------------*/		
-		uint8_t 	NULL_BYTE[3];	//¿Õ×Ö½Ú	//3byte
-		uint8_t 	identifier[8];	//±êÊ¶·û	//8byte+1
-		uint16_t	totalLayers;	//×Ü²ãÊý	//2byte
-		uint16_t	XRatio; 	//X·Ö±æÂÊ	2560	//2byte
-		uint16_t	YRatio; 	//Y·Ö±æÂÊ	1440	//2byte
+	/*----------------Í¼ï¿½ï¿½Ö¡Í·ï¿½ï¿½ï¿½ï¿½Ê¶----------------*/
+		uint8_t 	NULL_BYTE[3];	//ï¿½ï¿½ï¿½Ö½ï¿½	//3byte
+		uint8_t 	identifier[8];	//ï¿½ï¿½Ê¶ï¿½ï¿½	//8byte+1
+		uint16_t	totalLayers;	//ï¿½Ü²ï¿½ï¿½ï¿½	//2byte
+		uint16_t	XRatio; 	//Xï¿½Ö±ï¿½ï¿½ï¿½	2560	//2byte
+		uint16_t	YRatio; 	//Yï¿½Ö±ï¿½ï¿½ï¿½	1440	//2byte
 		uint8_t		X_range_len;		//4byte
-		float		X_range;	//XÆ½Ì¨³¤¶È 	//4byte
+		float		X_range;	//XÆ½Ì¨ï¿½ï¿½ï¿½ï¿½ 	//4byte
 		uint8_t		Y_range_len;		//4byte
-		float		Y_range;	//YÆ½Ì¨³¤¶È 	//4byte
+		float		Y_range;	//YÆ½Ì¨ï¿½ï¿½ï¿½ï¿½ 	//4byte
 		uint8_t		thickness_len;		//4byte
-		float		thickness;	//²ãºñ			//4byte
-		
-		uint32_t	LedOnTime;//ÆØ¹âÊ±¼ä
-		uint32_t	LedOffTime;//ÃðµÆÊ±¼ä
-		uint32_t	BottomLedOnTime; 	//µ×²ãÆØ¹âÊ±¼ä
-		uint16_t	Bottomlayers;	//µ×²ã²ãÊý
+		float		thickness;	//ï¿½ï¿½ï¿½ï¿½			//4byte
 
-		uint32_t	LedOnTime_bak;//ÆØ¹âÊ±¼ä
-		uint32_t	BottomLedOnTime_bak;//µ×²ãÆØ¹âÊ±¼ä
+		uint32_t	LedOnTime;//ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
+		uint32_t	LedOffTime;//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+		uint32_t	BottomLedOnTime; 	//ï¿½×²ï¿½ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
+		uint16_t	Bottomlayers;	//ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½
+
+		uint32_t	LedOnTime_bak;//ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
+		uint32_t	BottomLedOnTime_bak;//ï¿½×²ï¿½ï¿½Ø¹ï¿½Ê±ï¿½ï¿½
 };
 
 
 struct CPLD_DATA_FRAME
 {
-#pragma pack(1)  
-	//SPI ¸ßÎ»ÏÈ³ö
+#pragma pack(1)
+	//SPI ï¿½ï¿½Î»ï¿½È³ï¿½
 	//bit7: 	0-W 1-R	;
-	//bit6: 	1-SDRAM 0-REG; 
-	//bit5~4: 	4¸öbank ±àºÅ
-	//bit3~0:	ÐÐ±àºÅ 4Î»¸ßÎ» 
-	uint8_t mark1;		
+	//bit6: 	1-SDRAM 0-REG;
+	//bit5~4: 	4ï¿½ï¿½bank ï¿½ï¿½ï¿½ï¿½
+	//bit3~0:	ï¿½Ð±ï¿½ï¿½ï¿½ 4Î»ï¿½ï¿½Î»
+	uint8_t mark1;
 
-	//bit7~0:	ÐÐ±àºÅ 8Î»µÍÎ» 
+	//bit7~0:	ï¿½Ð±ï¿½ï¿½ï¿½ 8Î»ï¿½ï¿½Î»
 	uint8_t mark2;
 
-	uint8_t data[DATA_LEN];	//ÏñËØÊý¾Ý
+	uint8_t data[DATA_LEN];	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	uint16_t CRC16;	// X^16 + X^15 + X^2 + 1
-#pragma pack()        
+#pragma pack()
 };
 
 struct CPLD_CMD_FRAME
@@ -100,80 +100,80 @@ struct CPLD_CMD_FRAME
 #pragma pack(1)
 	//bit7: 	0-W 1-R ;
 	//bit6~0:	addr
-	uint8_t mark;	
+	uint8_t mark;
 	//bit7~3:	0
 	//bit2~0:	nouse
 	uint8_t data1;
 	//bit7:		scan_en		1:enable	0:disable
 	//bit6:		rd_sdram_en	1:enable	0:disable
-	//bit5~4:	4¸öbank ±àºÅ
+	//bit5~4:	4ï¿½ï¿½bank ï¿½ï¿½ï¿½ï¿½
 	//bit3~0:	VERSION
-	uint8_t data2;		
+	uint8_t data2;
 	//uint16_t CRC16;	// X^16 + X^15 + X^2 + 1
-#pragma pack()  
+#pragma pack()
 };
 
 struct DLP_BMP_LINE
 {
-	/*----------------ÐÐÊý¾Ý----------------*/		
-		uint16_t start_py;		//ÆðÊ¼µã
-		uint16_t end_py;		//½áÊøµã
+	/*----------------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½----------------*/
+		uint16_t start_py;		//ï¿½ï¿½Ê¼ï¿½ï¿½
+		uint16_t end_py;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-#pragma pack(1)                  
+#pragma pack(1)
 		CPLD_DATA_FRAME d_frame;
 		uint8_t d_frame_bakup[TXDATA_LEN];
 		volatile uint8_t crc_status;
-#pragma pack()                  
-		
+#pragma pack()
+
 };
 
 struct DLP_BMP
 {
-	/*----------------Í¼ÏñÖ¡Êý¾Ý----------------*/		
+	/*----------------Í¼ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½----------------*/
 
-		uint32_t totalPoint;	//Ò»²ãµÄ×ÜµãÊý (1ÌõÁ¬ÐøµÄÁÁÏß ÈÏÎªÒ»¸öµã),ÓÃÒÔÅÐ¶Ï¸Ã²ã½áÊø(½áºÏ0x0a,0x0d)	
-		uint32_t currentPoint;	//µ±Ç°µã currentPoint == totalPoint Ê±£¬¸Ã²ã½áÊø
+		uint32_t totalPoint;	//Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Üµï¿½ï¿½ï¿½ (1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ÎªÒ»ï¿½ï¿½ï¿½ï¿½),ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï¸Ã²ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½0x0a,0x0d)
+		uint32_t currentPoint;	//ï¿½ï¿½Ç°ï¿½ï¿½ currentPoint == totalPoint Ê±ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½
 
-		uint16_t coordinate_X;	//ÐÐ
-		uint16_t current_line;	//µ±Ç°ÐÐ ·¶Î§ 0~2560 £¬ ÊÇcoordinate_XµÄÈ«¼¯£¬ÓÃÓÚÌî³ä0
+		uint16_t coordinate_X;	//ï¿½ï¿½
+		uint16_t current_line;	//ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½Î§ 0~2560 ï¿½ï¿½ ï¿½ï¿½coordinate_Xï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
 
-		
+
 		DLP_BMP_LINE line;
 };
 
 
 struct DLP_STATUS
 {
-	/*-------------------×´Ì¬¿ØÖÆ±êÖ¾------------------*/	
-	uint16_t currentLayer; //µ±Ç°²ã£¬currentLayer == totalLayers Ê±£¬ÎÄ¼þ´òÓ¡½áÊø
-	uint8_t curBottomlayers;	
+	/*-------------------×´Ì¬ï¿½ï¿½ï¿½Æ±ï¿½Ö¾------------------*/
+	uint16_t currentLayer; //ï¿½ï¿½Ç°ï¿½ã£¬currentLayer == totalLayers Ê±ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½
+	uint8_t curBottomlayers;
 
-	bool exposure;			//0:Ãð  1:ÁÁ
-	bool transferComplete;	
-	
-	uint32_t test_exposure_time;	//ÆØ¹â¼ì²âÊ±¼ä
-	bool led_status;	
-	bool pause_ledStatus;			//ÔÝÍ£Ê± µÆ×´Ì¬
+	bool exposure;			//0:ï¿½ï¿½  1:ï¿½ï¿½
+	bool transferComplete;
+
+	uint32_t test_exposure_time;	//ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	bool led_status;
+	bool pause_ledStatus;			//ï¿½ï¿½Í£Ê± ï¿½ï¿½×´Ì¬
 	bool quickStop_status;
 	uint32_t release_time;
 };
 
 typedef enum
 {
-	DLP_MOVING = 0xa6,	// ÒÆ¶¯ÖÐ
-	DLP_STOPED,			//Í£Ö¹ÖÐ
+	DLP_MOVING = 0xa6,	// ï¿½Æ¶ï¿½ï¿½ï¿½
+	DLP_STOPED,			//Í£Ö¹ï¿½ï¿½
 } DLP_MOVE_STATUS;
 
 
 struct DLP_POWEROFF_RESUME
 {
-//#pragma pack(1) 
+//#pragma pack(1)
 	uint32_t sdpos[POWEROFF_RESUME_BUF_LEN];
 	uint16_t layer[POWEROFF_RESUME_BUF_LEN];
 	DLP_MOVE_STATUS status[POWEROFF_RESUME_BUF_LEN];
 	uint32_t seconds[POWEROFF_RESUME_BUF_LEN];
 	uint16_t addr;
-//#pragma pack()  	
+//#pragma pack()
 };
 //========================================================//
 //cbddlp file
@@ -262,7 +262,7 @@ extern preview_pic_def preview_pic_big,preview_pic_small;
 
 class MKS_DLP {
 	private:
-	
+
 	DLP_HEAD head;
 	DLP_BMP bmp;
 	DLP_STATUS status;
@@ -270,19 +270,19 @@ class MKS_DLP {
 	char displayInTFT_ON;
 	char displayInTFT_OFF;
 	DLP_POWEROFF_RESUME poweroff_resume;
-		
+
 	public:
 	uint32_t tick_ms;
 	uint16_t buzzer_buffer[BUZZER_MAX_CYCLE][2];
 	uint8_t buzzer_ena;
-	
+
 	bool quick_stop_ena;
 	SSD2828 ssd;
-	
+
 	uint8_t print_file_type;// 1:.mdlp;	2:.cbddlp
 #if defined(MKS_DLP_WRITE_FILE)	|| defined(MKS_DLP_WRITE_TFT_FILE)
 	FIL	file;
-#endif		
+#endif
 	MKS_DLP();
 
 	void status_init();
@@ -291,13 +291,13 @@ class MKS_DLP {
 	void getHead2();
 	void startFileprint();
 
-	
+
 	void moveFistLayer_Z();
 	void moveMax_Z();
 	void moveRelative_Z(float Z,float feedrate);
 	void moveRelativeZandGetBmp(float Z,float feedrate);
 
-	
+
 	uint8_t bank2disp_read();
 	uint8_t bank2disp_enable(uint8_t bank_used_id,uint8_t scan_en,uint8_t rd_sdram_en);
     void line_fill_all_zero(char flag,uint16_t line,uint8_t bank_used_id);
@@ -306,15 +306,15 @@ class MKS_DLP {
 	void line_gen_data(uint16_t line,uint8_t bank_used_id);
 	void line_gen_data_TFT(uint16_t line);
 
-	
+
 	void get_sdcard_bmps();
 	void get_available_bmps();
 
 	void bottomLayerPrint();
 	void GeneralLayersPrint();
-	void printingHasFinished(); 
+	void printingHasFinished();
 	uint8_t reTransmission();
-	
+
 	void ExposureDataTrans_circle();
 	void ExposureData2TFT_circle();
 	void ExposureDataTrans_square();
@@ -325,7 +325,7 @@ class MKS_DLP {
 	void power_on();
 	void power_off();
 	void dlp_start();
-	
+
 
 	void set_LedOnTime(uint16_t value);
 	void set_LedOffTime(uint16_t value);
@@ -337,7 +337,7 @@ class MKS_DLP {
 	uint16_t get_currentLayer();
 	uint32_t get_totalPrintTime();
 	uint32_t get_currentPrintTime();
-	float get_Height();	
+	float get_Height();
  	char get_ttfStatus_ON();
 	char get_ttfStatus_OFF();
 	uint8_t get_cpld_ver();
@@ -388,8 +388,8 @@ class MKS_DLP {
 	void get_cbddlp_print_para_info();
 	void get_cbddlp_cur_layer_def(uint32_t layer);
 	void startFileprint_cbd();
-	void decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank);	
-	
+	void decode_layer_from_rle(uint32_t cur_layer,uint8_t work_bank);
+
 };
 
 #if defined(__cplusplus)
@@ -410,7 +410,7 @@ extern void get_pic_display(uint8_t sel);
 extern MKS_DLP mksdlp;
 
 
-#if defined(MKS_DLP_WRITE_FILE)	
+#if defined(MKS_DLP_WRITE_FILE)
 
 #endif
 
