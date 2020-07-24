@@ -8,7 +8,7 @@
 
 ## Build Instructions and a few novice usage tips about IAR Workbench:
 
-1. Install a copy of [IAR Workbench](https://www.iar.com/iar-embedded-workbench/) <cringe>.
+1. Install a copy of [IAR Workbench](https://www.iar.com/iar-embedded-workbench/) for ARM `<cringe>`.
 
 2. Clone this github project to your local machine.
 
