@@ -33,7 +33,7 @@
 
     ![MakeButton](/GitHubPics/Make.jpg)
  
-    If it's the first time you've done so, you'll be asked where to save your now-modified project.  The default appears to be Project.ewp in the EWARM folder.
+    If it's the first time you've done so, you'll be asked where to save your now-modified workspace.  The default appears to be Project.eww in the EWARM folder.
 
     ![SaveProject](/GitHubPics/ProjectSave.jpg)
 
